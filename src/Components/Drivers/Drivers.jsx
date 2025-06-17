@@ -20,7 +20,7 @@ export default function Drivers() {
         },
 
       });
-      // console.log("driver data", res?.data);
+      console.log("driver data", res?.data[0].id);
       return res?.data;
       
 
@@ -34,12 +34,7 @@ export default function Drivers() {
   <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
   Drivers
     </div>
-      <Link
-        to={"/users/drivers/add"}
-        className="block mb-8 border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold"
-      >
-        + Add Driver
-      </Link>
+   
         
         <FetchWrapper isLoading={isLoading} isError={isError} error={error} data={data}>
 

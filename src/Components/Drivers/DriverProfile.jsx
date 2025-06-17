@@ -1,10 +1,10 @@
     import React from 'react'
-    import Profile from '../Profile/Profile'
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import Loader from '../Loader/Loader';
 import { toast } from 'react-toastify';
+import Profile from '../Profile/Profile';
 
     export default function DriverProfile() {
         const { data, isLoading ,isFetched} = useQuery({

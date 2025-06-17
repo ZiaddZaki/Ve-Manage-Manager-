@@ -12,37 +12,16 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQuery }) {
   const queryClient = useQueryClient();
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const[isVisable,setIsvisable]=useState(false)
-  const [selectedId, setSelectedId] = useState(null);
 
-  const mutation = useMutation({
-    mutationFn: deleteItem,
-    onSuccess: () => {
-      toast.success(' Deleted Successfully !');
-      setIsvisable(false)
-      queryClient.invalidateQueries([keyOfQuery]);
-    },
-    onError: (error) => {
-      // console.error('Error deleting data:', error);
-      toast.error('Delete Failed');
-    },
-  });
+
+
   
-  async function deleteItem() {
-    return await axios.delete(`${baseUrl}/${selectedId}`,
-      {
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
 
-      }
-    );
-  }
   const handleToggle = (index) => {
     if (selectedRowIndex === index) {
-      setSelectedRowIndex(null); // لو دوست تاني يقفله
+      setSelectedRowIndex(null);
     } else {
-      setSelectedRowIndex(index); // يفتح على الصف ده بس
+      setSelectedRowIndex(index);
     }
   };
   // console.log("selectedId",selectedId);
@@ -82,7 +61,8 @@ export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQ
               </div>
 
               {
-                selectedRowIndex===index &&<div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border  border-primaryColor absolute right-0 -top-[87px] bg-white z-50 transition duration-500">
+                selectedRowIndex===index &&<div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border  border-primaryColor absolute right-0 -top-[38px] bg-white z-50 transition duration-500">
+
 
             <Link
               to={row.link}
@@ -91,18 +71,11 @@ export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQ
               <span><FaUser/></span>  Profile
 
             </Link>
-            <div className=" p-[3px]  px-1 text-[16px] cursor-pointer  flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white " onClick={()=>{
-                setSelectedId(row.id);
-              setIsvisable(true)}} > 
-              <span><FaTrash/></span>
-              Delete
-            </div>
+          
               </div>}
           </div>
         ))}
-        {isVisable &&<Popup message={"Are You Sure to Delete This User ?"} onClose={()=>setIsvisable(false)} onConfirm={() => {
-          mutation.mutate();
-}}/>}
+        
       </div>
 
 
@@ -126,19 +99,12 @@ export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQ
               >
                 View Profile
               </Link>
-              <div className=" py-1 px-3 text-[16px] cursor-pointer  flex gap-3 items-center bg-red-300 rounded-lg text-white w-28 text-center" onClick={()=>{
-                setSelectedId(row.id);
-              setIsvisable(true)}} > 
-              <span><FaTrash/></span>
-              Delete
-            </div>
+          
             </div>
             
           </div>
         ))}
-                {isVisable &&<Popup message={"Are You Sure to Delete This User ?"} onClose={()=>setIsvisable(false)} onConfirm={() => {
-          mutation.mutate();
-}}/>}
+                
       </div>
     </div>
   );

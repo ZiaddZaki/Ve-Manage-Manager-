@@ -6,12 +6,7 @@ import { FaCar, FaTruck, FaBus } from "react-icons/fa";
 export default function Category() {
   return (
     <>
-      <Link
-        to={"/category/add"}
-        className="block mb-12 border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold"
-      >
-        + Add New Category
-      </Link>
+   
       <div className="grid  grid-cols-2 sm:grid-cols-3 gap-3">
         <div className="bg-white py-4 px-6    rounded-md border-l-4 border-primaryColor shadow-md">
           <div className="flex gap-3 items-center">
@@ -19,9 +14,9 @@ export default function Category() {
               <FaCar />
             </span>
             <span>Cars</span>
-            <button className="text-[#4880FF] text-[23px] ml-auto">
+            {/* <button className="text-[#4880FF] text-[23px] ml-auto">
               <IoEllipsisVertical />
-            </button>
+            </button> */}
           </div>
           <div className="text-gray-600 mt-3">Descreption</div>
         </div>
@@ -31,9 +26,9 @@ export default function Category() {
               <FaBus />
             </span>
             <span>Buses</span>
-            <button className="text-[#4880FF] text-[23px] ml-auto">
+            {/* <button className="text-[#4880FF] text-[23px] ml-auto">
               <IoEllipsisVertical />
-            </button>
+            </button> */}
           </div>
           <div className="text-gray-600 mt-3">Descreption</div>
         </div>
@@ -43,9 +38,9 @@ export default function Category() {
               <FaTruck />
             </span>
             <span>Trucks</span>
-            <button className="text-[#4880FF] text-[23px] ml-auto">
+            {/* <button className="text-[#4880FF] text-[23px] ml-auto">
               <IoEllipsisVertical />
-            </button>
+            </button> */}
           </div>
           <div className="text-gray-600 mt-3">Descreption</div>
         </div>

@@ -31,12 +31,7 @@ export default function Vehicles() {
     </div>
       <div className="controls">
         <div className="btns flex gap-5  mb-8">
-          <Link
-            to={"/vehicles/add"}
-            className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold"
-          >
-            + Add Vehicle
-          </Link>
+      
           <Link
             to={"/vehicles/categories"}
             className="block  border bg-primaryColor text-white w-[180px] p-2 text-center rounded-lg font-bold"
