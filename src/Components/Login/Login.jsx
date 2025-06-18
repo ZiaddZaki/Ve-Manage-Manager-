@@ -39,6 +39,7 @@ export default function Login() {
       console.log("Login Successful:", res?.data);
       localStorage.setItem("token", res?.data?.token); //saving the token in local storage
       localStorage.setItem("email", res?.data?.email); //saving the email in local storage
+      localStorage.setItem("displayName", res?.data?.bussinessUserDto?.displayName); //saving the displayname in local storage
       
       if (res?.data?.mustChangePassword == true) {
         navigate("/ResetPassword");

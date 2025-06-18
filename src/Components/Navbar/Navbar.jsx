@@ -17,7 +17,7 @@ export default function Navbar({ isVisable, handleToggle }) {
             }
       <div className="user-info flex items-center gap-3 ml-auto">
         <span><FaUser/></span>
-        <span className="">Ziad Mahmoud</span>
+        <span className="">{localStorage.getItem("displayName")}</span>
       </div>
     </div>
   )

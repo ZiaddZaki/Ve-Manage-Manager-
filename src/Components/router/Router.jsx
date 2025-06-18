@@ -16,6 +16,23 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import VehiclesProfile from "../Vehicles/VehiclesProfile";
 import DriverProfile from "../Drivers/DriverProfile";
 import MechanicsProfile from "../Mechanics/MechanicsProfile";
+// import DriverForm from "../Forms/DriverForm";
+// import Manager from "../../components/Manager/Manager";
+// import ManagerAdd from "../Forms/MangerAdd";
+// import MecghanicAdd from "../Forms/MechanicAdd";
+// import VehiclesAdd from "../Vehicles/VehiclesAdd";
+// import Model from "../Vehicles/Model";
+// import Category from "../Vehicles/Category";
+// import Profile from "../Profile/Profile";
+import Trips from "../Trips/trips";
+import Maintience from "../Maintience/Maintience";
+import DriversReports from "../DriversReports/DriversReports";
+import MechanicsReports from "../MechanicsReports/MechanicsReports";
+// import ManagersProfile from "../Manager/ManagersProfile";
+// import VehiclesProfile from "../Vehicles/VehiclesProfile";
+// import DriverProfile from "../Drivers/DriverProfile";
+// import MechanicsProfile from "../Mechanics/MechanicsProfile";
+// import CategoryAdd from "../Forms/CategoryAdd";
 
 const Router = createBrowserRouter([
   {
@@ -36,6 +53,23 @@ const Router = createBrowserRouter([
           { path: "/VehiclesProfile/:id", element: <VehiclesProfile /> },
           { path: "/driverProfile/:id", element: <DriverProfile /> },
           { path: "/mechanicProfile/:id", element: <MechanicsProfile /> },
+          // { path: "/users/drivers/add", element: <DriverForm /> },
+          // { path: "/users/mechanics/add", element: <MecghanicAdd /> },
+          // { path: "/users/managers", element: <Manager /> },
+          // { path: "/users/managers/add", element: <ManagerAdd /> },
+          { path: "/trips", element: <Trips /> },
+          { path: "/maintience", element: <Maintience /> },
+          { path: "/reports/drivers", element: <DriversReports /> },
+          { path: "/reports/mechanics", element: <MechanicsReports /> },
+
+          // { path: "/vehicles/add", element: <VehiclesAdd /> },
+          // { path: "/vehicles/model", element: <Model /> },
+          // { path: "/vehicles/categories", element: <Category /> },
+          // { path: "/ManagerProfile/:id", element: <ManagersProfile /> },
+          // { path: "/VehiclesProfile/:id", element: <VehiclesProfile /> },
+          // { path: "/driverProfile/:id", element: <DriverProfile /> },
+          // { path: "/mechanicProfile/:id", element: <MechanicsProfile /> },
+          // { path: "/category/add", element: <CategoryAdd /> },
         ],
       },
     ],
