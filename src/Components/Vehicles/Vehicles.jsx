@@ -48,26 +48,31 @@ export default function Vehicles() {
       </div>
 
       <div>
+          {data ? data.length === 0 && (
+            <div className="text-center text-black">
+              No vehicles found.
+            </div>
+          ) : (
         <FetchWrapper isLoading={isLoading} data={data}>
-          <AllUsersTable
-            keyOfQuery={"vehicles"}
-            baseUrl="http://veemanage.runasp.net/api/Vehicle"
-
-          titles={["ID", "Model", "Palet Number", "Joind Year", "Category"]}
-          rows={data?.map((item, index) => ({
-            link: `/VehiclesProfile/${item.id}`,
-            id:item.id,
-            values: [
-              index + 1,
-              item.name,
-              item.palletNumber,
-              item.joindYear,
-              item.category,
-            ],
-          }))}
-          columnSizes={["10%", "28%", "20%", "20%", "19%", "3%"]}
+            <AllUsersTable
+              keyOfQuery={"vehicles"}
+              baseUrl="http://veemanage.runasp.net/api/Vehicle"
+              titles={["ID", "Model", "Palet Number", "Joind Year", "Category"]}
+              rows={data?.map((item, index) => ({
+                link: `/VehiclesProfile/${item.id}`,
+                id: item.id,
+                values: [
+                  index + 1,
+            item.name,
+            item.palletNumber,
+            item.joindYear,
+            item.category,
+          ],
+        }))}
+        columnSizes={["10%", "28%", "20%", "20%", "19%", "3%"]}
         />
         </FetchWrapper>
+      )}
         
       </div>
     </>
