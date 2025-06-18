@@ -32,9 +32,6 @@ export default function Mechans() {
         Mechanics
     </div>
      
-
-
-
   <FetchWrapper isLoading={isLoading} isError={isError} error={error} data={data}>
       <AllUsersTable
                   keyOfQuery={"mechanics"}
