@@ -15,11 +15,11 @@ const Layout = () => {
       <Sidebar isVisable={isVisable} handleToggle={handleToggle} />
       <div
         className={`content  transition-all duration-300 ${
-          isVisable ? "md:ml-[280px] " : "ml-0"
+          isVisable ? "md:ml-[270px] " : "ml-0"
         }`}
       >
         <Navbar isVisable={isVisable} handleToggle={handleToggle} />
-        <div className="main-content p-4 md:p-4 md:px-10">
+        <div className="main-content p-4 md:p-4 md:px-4">
           <Outlet />
         </div>
       </div>

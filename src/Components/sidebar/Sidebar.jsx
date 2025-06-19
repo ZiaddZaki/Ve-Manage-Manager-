@@ -40,7 +40,7 @@ const Sidebar = ({ isVisable, handleToggle }) => {
   }
   return (
     <div
-      className={`bg-[#191919] min-h-[100vh] text-white flex flex-col justify-between px-5 py-10 font-Inter w-[280px] z-[3000] fixed transition-transform duration-400 ${
+      className={`bg-[#191919] min-h-[100vh] text-white flex flex-col justify-between px-5 py-10 font-Inter w-[270px] z-[3000] fixed transition-transform duration-400 ${
         isVisable ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -215,7 +215,7 @@ const Sidebar = ({ isVisable, handleToggle }) => {
             <span>
               <FaTools className="text-[19px]" />
             </span>
-            <span className="text-[#FFFFFFB2] text-[16px]">Maintience</span>
+            <span className="text-[#FFFFFFB2] text-[16px]">Maintenance</span>
           </NavLink>
         </div>
       </div>
