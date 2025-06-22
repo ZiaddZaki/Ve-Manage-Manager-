@@ -162,7 +162,7 @@ const Sidebar = ({ isVisable, handleToggle }) => {
                 } mb-1.5 hover:bg-stone-700 p-2 rounded-md`
               }
             >
-              Mechanic's Report
+              Mechanic's Reports
             </NavLink>
           </div>
         </div>
