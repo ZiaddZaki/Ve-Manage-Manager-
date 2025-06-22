@@ -6,7 +6,7 @@ const DriversReports = () => {
   console.log("DriversReports component rendered");
   return (
     <div>
-      <div className="text-center mb-7 w-[100%] py-[0.5rem] bg-red-500 text-white border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
+      <div className="text-center mb-7 w-[100%] py-[0.5rem] bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
         Drivers Reports
       </div>
       <div>
