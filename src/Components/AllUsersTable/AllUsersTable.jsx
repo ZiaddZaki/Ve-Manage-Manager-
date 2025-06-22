@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FaArrowRight, FaRecycle, FaRemoveFormat, FaTrash, FaUser } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaRecycle,
+  FaRemoveFormat,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { Link } from "react-router";
 import Popup from "../Popup/Popup";
@@ -8,14 +14,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 
-
-export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQuery }) {
+export default function AllUsersTable({
+  titles,
+  rows,
+  columnSizes,
+  baseUrl,
+  keyOfQuery,
+}) {
   const queryClient = useQueryClient();
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-
-
-
-  
 
   const handleToggle = (index) => {
     if (selectedRowIndex === index) {
@@ -24,18 +31,30 @@ export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQ
       setSelectedRowIndex(index);
     }
   };
-  // console.log("selectedId",selectedId);
-  
-  
+
+  // Function to get the appropriate color class based on trip status
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case "pending":
+        return "bg-blue-500";
+      case "complete":
+        return "bg-green-500";
+      case "in progress":
+        return "bg-orange-500";
+      default:
+        return "bg-gray-500"; // Fallback color
+    }
+  };
+
   return (
     <div className="font-Inter font-[540] w-full p-1 md:p-3 text-[0.75rem] md:text-[0.9rem] lg:text-[1.1rem] flex flex-col gap-3">
-      <div className="hidden lg:flex flex-col gap-y-2  w-full">
+      <div className="hidden lg:flex flex-col gap-y-2 w-full">
         {/* Table header */}
         <div
           className={`grid text-center text-[#04103B] font-[550]`}
           style={{ gridTemplateColumns: columnSizes.join(" ") }}
         >
-          {titles.map((title) => (
+          {titles?.map((title) => (
             <div className="p-2" key={title}>
               {title}
             </div>
@@ -43,68 +62,87 @@ export default function AllUsersTable({ titles, rows, columnSizes,baseUrl,keyOfQ
           <div className="p-2"></div>
         </div>
 
-        {rows.map((row, index) => (
+        {rows?.map((row, index) => (
           <div
-            className={`grid text-center mb-2 bg-white rounded-lg  font-[300] shadow-md relative transition duration-500 ${selectedRowIndex===index ? "shadow-lg border-2 border-primaryColor" :"border border-stone-300"}`}
+            className={`grid text-center mb-2 bg-white rounded-lg font-[300] shadow-md relative transition duration-500 ${
+              selectedRowIndex === index
+                ? "shadow-lg border-2 border-primaryColor"
+                : "border border-stone-300"
+            }`}
             key={index}
             style={{ gridTemplateColumns: columnSizes.join(" ") }}
-            
           >
-            {row.values.map((item, idx) => (
-              <div className="p-2 truncate" key={idx}>
+            {row?.values?.map((item, idx) => (
+              <div
+                className="p-2 truncate flex items-center justify-center gap-2"
+                key={idx}
+              >
+                {titles[idx] === "Trip Status" && (
+                  <span
+                    className={`inline-block w-3 h-3 rounded-full ${getStatusColor(
+                      item
+                    )}`}
+                  ></span>
+                )}
                 {item}
               </div>
             ))}
-              <div className="flex flex-col justify-center text-primaryColor font-bold cursor-pointer ">
+            <div className="flex flex-col justify-center items-center text-primaryColor font-bold cursor-pointer">
+              <IoEllipsisVertical
+                size={25}
+                onClick={() => handleToggle(index)}
+              />
+            </div>
 
-              <IoEllipsisVertical  size={25} onClick={()=>handleToggle(index)}/>
+            {selectedRowIndex === index && (
+              <div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border border-primaryColor absolute right-0 -top-[38px] bg-white z-50 transition duration-500">
+                <Link
+                  to={row.link}
+                  className="p-[3px] px-1 border-b border-stone-300 text-[16px] cursor-pointer flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white"
+                >
+                  <span>
+                    <FaUser />
+                  </span>{" "}
+                  Profile
+                </Link>
               </div>
-
-              {
-                selectedRowIndex===index &&<div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border  border-primaryColor absolute right-0 -top-[38px] bg-white z-50 transition duration-500">
-
-
-            <Link
-              to={row.link}
-              className=" p-[3px] px-1 border-b border-stone-300  text-[16px] cursor-pointer  flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white"
-              >
-              <span><FaUser/></span>  Profile
-
-            </Link>
-          
-              </div>}
+            )}
           </div>
         ))}
-        
       </div>
-
 
       {/* Responsive layout for small screens */}
       <div className="flex flex-col gap-4 lg:hidden">
-        {rows.map((row, idx) => (
+        {rows?.map((row, idx) => (
           <div
             key={idx}
             className="bg-white p-4 rounded-xl shadow border text-sm"
           >
-            {titles.map((title, index) => (
+            {titles?.map((title, index) => (
               <div key={index} className="flex justify-between border-b py-1">
                 <span className="font-semibold text-gray-600">{title}</span>
-                <span className="text-gray-800">{row.values[index]}</span>
+                <span className="text-gray-800 flex items-center gap-2">
+                  {title === "Trip Status" && (
+                    <span
+                      className={`inline-block w-3 h-3 rounded-full ${getStatusColor(
+                        row.values[index]
+                      )}`}
+                    ></span>
+                  )}
+                  {row.values[index]}
+                </span>
               </div>
             ))}
-            <div className="mt-8 flex flex-col gap-3 ">
+            <div className="mt-8 flex flex-col gap-3">
               <Link
                 to={row.link}
                 className="inline-block bg-primaryColor text-white py-1 px-3 rounded-lg text-sm w-28 text-center"
               >
                 View Profile
               </Link>
-          
             </div>
-            
           </div>
         ))}
-                
       </div>
     </div>
   );
