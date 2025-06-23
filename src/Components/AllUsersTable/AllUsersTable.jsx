@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
   FaArrowRight,
+  FaInfo,
+  FaInfoCircle,
   FaRecycle,
   FaRemoveFormat,
   FaTrash,
@@ -37,7 +39,7 @@ export default function AllUsersTable({
     switch (status?.toLowerCase()) {
       case "pending":
         return "bg-blue-500";
-      case "complete":
+      case "completed":
         return "bg-green-500";
       case "in progress":
         return "bg-orange-500";
@@ -55,7 +57,7 @@ export default function AllUsersTable({
           style={{ gridTemplateColumns: columnSizes.join(" ") }}
         >
           {titles?.map((title) => (
-            <div className="p-2" key={title}>
+            <div className="flex items-start p-2" key={title}>
               {title}
             </div>
           ))}
@@ -74,7 +76,7 @@ export default function AllUsersTable({
           >
             {row?.values?.map((item, idx) => (
               <div
-                className="p-2 truncate flex items-center justify-center gap-2"
+                className="px-3 py-2 truncate flex items-center justify-start gap-2"
                 key={idx}
               >
                 {titles[idx] === "Trip Status" && (
@@ -98,12 +100,12 @@ export default function AllUsersTable({
               <div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border border-primaryColor absolute right-0 -top-[38px] bg-white z-50 transition duration-500">
                 <Link
                   to={row.link}
-                  className="p-[3px] px-1 border-b border-stone-300 text-[16px] cursor-pointer flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white"
+                  className="p-[3px] px-1  border-stone-300 text-[16px] cursor-pointer flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white"
                 >
                   <span>
-                    <FaUser />
+                    <FaInfoCircle />
                   </span>{" "}
-                  Profile
+                  Details
                 </Link>
               </div>
             )}
