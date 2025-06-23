@@ -3,6 +3,7 @@ import AllUsersTable from "../AllUsersTable/AllUsersTable";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
+import { Link } from "react-router";
 
 const Trips = () => {
   async function getTips() {
@@ -16,7 +17,7 @@ const Trips = () => {
         }
       );
       console.log("Trips data:", response?.data);
-      return response?.data;
+      return response?.data?.tripRequests || [];
     } catch (error) {
       console.error("Error fetching trips:", error);
       return [];
@@ -45,6 +46,12 @@ const Trips = () => {
       <div className="text-center mb-7 w-full py-2 bg-stone-200 text-stone-700 border border-stone-300 rounded-md shadow-sm font-semibold text-xl">
         Trips
       </div>
+       <Link
+        to={"/trip/add"}
+        className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold"
+        >
+        + Assign Trip
+      </Link>
       <FetchWrapper isLoading={isLoading} data={data}>
         <AllUsersTable
           titles={[
@@ -58,26 +65,26 @@ const Trips = () => {
             " ",
           ]}
           rows={data?.map((item, index) => ({
-            link: `/VehiclesProfile/${item.id}`,
+            link: `/trips/${item.id}`,
             id: item.id,
             values: [
               index + 1,
               item.driver.displayName,
               item.vehicle.vehicleModelDto.brand?.name,
               item.vehicle.palletNumber,
-              item.tripStatus,
+              item.status,
               item.destination,
               formatDateTime(item.date),
             ],
           }))}
           columnSizes={[
             "5%", // #
-            "16%", // Driver Name
-            "12%", // Vehicle Type
-            "12%", // Plate Number
-            "14%", // Trip Status
-            "16%", // Destination
-            "20%", // Date & Time
+            "15%", // Driver Name
+            "15%", // Vehicle Type
+            "15%", // Plate Number
+            "15%", // Trip Status
+            "14%", // Destination
+            "17%", // Date & Time
             "5%", // Action
           ]}
         />

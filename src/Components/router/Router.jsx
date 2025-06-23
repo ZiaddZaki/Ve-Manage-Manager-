@@ -28,6 +28,7 @@ import Trips from "../Trips/trips";
 import Maintience from "../Maintience/Maintience";
 import DriversReports from "../DriversReports/DriversReports";
 import MechanicsReports from "../MechanicsReports/MechanicsReports";
+import TripDetails from "../Trips/TripDetails";
 // import ManagersProfile from "../Manager/ManagersProfile";
 // import VehiclesProfile from "../Vehicles/VehiclesProfile";
 // import DriverProfile from "../Drivers/DriverProfile";
@@ -58,6 +59,7 @@ const Router = createBrowserRouter([
           // { path: "/users/managers", element: <Manager /> },
           // { path: "/users/managers/add", element: <ManagerAdd /> },
           { path: "/trips", element: <Trips /> },
+          { path: "/trips/:id", element: <TripDetails /> },
           { path: "/maintience", element: <Maintience /> },
           { path: "/reports/drivers", element: <DriversReports /> },
           { path: "/reports/mechanics", element: <MechanicsReports /> },
