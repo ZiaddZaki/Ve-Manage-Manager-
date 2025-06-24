@@ -1,47 +1,6 @@
-import React from "react";
 import { Settings, Check, Loader } from "lucide-react";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 
-const ReportCard = () => {
-  async function fetchReports() {
-    try {
-      const response = await axios.get(
-        "http://veemanage.runasp.net/api/DriverReport/reports",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          params: {
-            Sort: "DateDesc",
-          },
-        }
-      );
-      console.log("Fetched reports:", response?.data);
-      return response?.data;
-    } catch (error) {
-      console.error("Error fetching reports:", error);
-      return [];
-    }
-  }
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["driversReports"],
-    queryFn: fetchReports,
-  });
-
-  const formatDateTime = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
+const ReportCard = ({ data, isLoading, formatDateTime }) => {
   if (isLoading)
     return (
       <div className="text-center">
