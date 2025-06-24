@@ -66,7 +66,7 @@ export default function AllUsersTable({
 
         {rows?.map((row, index) => (
           <div
-            className={`grid text-center mb-2 bg-white rounded-lg font-[300] shadow-md relative transition duration-500 ${
+            className={`grid text-center mb-2 bg-white rounded-xl font-[300] shadow-sm relative transition duration-500 ${
               selectedRowIndex === index
                 ? "shadow-lg border-2 border-primaryColor"
                 : "border border-stone-300"

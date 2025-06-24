@@ -121,16 +121,16 @@ const ReportCard = () => {
             <div
               className={`${
                 isTrip ? "bg-[#4CAF50]" : "bg-[#FA2E2E]"
-              } rounded-tr-lg rounded-tl-lg`}
+              } rounded-tr-md rounded-tl-md`}
             >
-              <div className="flex justify-between items-center p-3">
+              <div className="flex justify-between items-center p-2">
                 <div className="flex items-center">
                   {isTrip ? (
                     <Check className="w-6 h-6 text-white" />
                   ) : (
                     <Settings className="w-6 h-6 text-white" />
                   )}
-                  <span className="text-white font-medium text-xl ml-2">
+                  <span className="text-white font-medium text-lg ml-2">
                     {isTrip ? "Trip Completed" : "Fault Reported"}
                   </span>
                 </div>

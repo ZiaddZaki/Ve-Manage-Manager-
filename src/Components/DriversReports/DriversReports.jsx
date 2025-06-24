@@ -55,7 +55,11 @@ const DriversReports = () => {
           <button className="mb-3">data</button>
         </span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2 mx-5">
+      <div className="grid grid-cols-1  lg:grid-cols-2 gap-14 my-5 mx-5"
+      style={{
+        // maxWidth: "1200px",
+        // margin: "0 auto"
+      }}>
         <ReportCard
           data={data}
           isLoading={isLoading}
