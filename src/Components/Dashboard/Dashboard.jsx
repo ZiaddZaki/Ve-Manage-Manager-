@@ -43,7 +43,7 @@ export default function Dashboard() {
             <SalesLineChart />
           </div>
         </div>
-        <div className="bg-white text-black border border-stone-300 shadow-md  rounded-xl w-[100%]">
+        <div className="bg-white text-black border border-stone-300 shadow-md  rounded-xl w-[100%] col-span-1 md:col-span-2">
           <div className="flex flex-col gap-4 p-4">
             <SalesBarChart />
           </div>
