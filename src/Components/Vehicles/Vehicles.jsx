@@ -15,7 +15,12 @@ export default function Vehicles() {
   async function getVehicles() {
     try {
       const response = await axios.get(
-        "http://veemanage.runasp.net/api/Vehicle"
+        "http://veemanage.runasp.net/api/Vehicle",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       return response?.data;
     } catch (error) {
@@ -64,7 +69,7 @@ export default function Vehicles() {
                 index + 1,
                 item.name,
                 item.palletNumber,
-                item.joindYear,
+                item.joinedYear,
                 item.category,
               ],
             }))}

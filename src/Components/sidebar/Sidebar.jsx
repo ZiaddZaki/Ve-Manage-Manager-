@@ -71,6 +71,105 @@ const Sidebar = ({ isVisable, handleToggle }) => {
           <span className="text-[#FFFFFFB2] text-[16px]">Overview</span>
         </NavLink>
         <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
+          <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
+            <NavLink
+              to={"/maintience"}
+              className={({ isActive }) =>
+                `${
+                  isActive ? "bg-stone-700" : ""
+                } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
+              }
+            >
+              <span>
+                <FaTools className="text-[19px]" />
+              </span>
+              <span className="text-[#FFFFFFB2] text-[16px]">Maintenance</span>
+            </NavLink>
+          </div>
+          <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
+            <div
+              onClick={() => setShowReportsSubmenu(!showReportsSubmenu)}
+              className="flex gap-2 items-center cursor-pointer hover:bg-stone-700 rounded-md p-2 "
+            >
+              <div className="flex gap-3 items-center cursor-pointer rounded-md w-full justify-between ">
+                <div className="flex-1 flex gap-4 items-center cursor-pointer">
+                  <span>
+                    <FaBookmark className="text-[18px]" />
+                  </span>
+                  <span className="text-[#FFFFFFB2] text-[16px]">Reports</span>
+                </div>
+                {showReportsSubmenu ? (
+                  <MdKeyboardArrowUp className="text-gray-300 text-2xl" />
+                ) : (
+                  <MdKeyboardArrowDown className="text-gray-300 text-2xl" />
+                )}
+              </div>
+            </div>
+
+            <div
+              className={` mt-1 flex flex-col border-l border-stone-700   gap-1 ml-12 pl-2 text-sm text-gray-300 text-[1.1rem] overflow-hidden transition-[max-height] duration-300 ${
+                showReportsSubmenu ? "max-h-40" : "max-h-0"
+              }`}
+            >
+              {" "}
+              <NavLink
+                to={"/reports/drivers"}
+                className={({ isActive }) =>
+                  `${
+                    isActive ? "bg-stone-700" : ""
+                  } mb-1.5 hover:bg-stone-700 p-2 rounded-md`
+                }
+              >
+                Driver's Reports
+              </NavLink>
+              <NavLink
+                to={"/reports/mechanics"}
+                className={({ isActive }) =>
+                  `${
+                    isActive ? "bg-stone-700" : ""
+                  } mb-1.5 hover:bg-stone-700 p-2 rounded-md`
+                }
+              >
+                Mechanic's Reports
+              </NavLink>
+            </div>
+          </div>
+          <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
+            <NavLink
+              to={"/trips"}
+              className={({ isActive }) =>
+                `${
+                  isActive ? "bg-stone-700" : ""
+                } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
+              }
+            >
+              <span>
+                <FaGgCircle className="text-[20px]" />
+              </span>
+              <span className="text-[#FFFFFFB2] text-[16px]">Trips</span>
+            </NavLink>
+          </div>
+          <div className="item flex flex-col mb-3  text-[1.1rem] rounded-md ">
+            <NavLink
+              to={"/vehicles"}
+              className={({ isActive }) =>
+                `${
+                  isActive ? "bg-stone-700" : ""
+                } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
+              }
+            >
+              <span>
+                <FaCar className="text-[20px]" />
+              </span>
+              <span className="text-[#FFFFFFB2] text-[16px]">Vehicles</span>
+            </NavLink>
+
+            {/* <div
+            className={` mt-1 flex flex-col border-l border-stone-700   gap-1 ml-12 pl-2 text-sm text-gray-300 text-[1.1rem] overflow-hidden transition-[max-height] duration-300 ${
+              showVehiclesSubmenu ? "max-h-40" : "max-h-0"
+            }`}
+          ></div> */}
+          </div>
           <div
             onClick={() => setShowUsersSubmenu(!showUsersSubmenu)}
             className="flex gap-2 items-center cursor-pointer hover:bg-stone-700 rounded-md p-2 "
@@ -117,106 +216,6 @@ const Sidebar = ({ isVisable, handleToggle }) => {
               Mechanics
             </NavLink>
           </div>
-        </div>
-        <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
-          <div
-            onClick={() => setShowReportsSubmenu(!showReportsSubmenu)}
-            className="flex gap-2 items-center cursor-pointer hover:bg-stone-700 rounded-md p-2 "
-          >
-            <div className="flex gap-3 items-center cursor-pointer rounded-md w-full justify-between ">
-              <div className="flex-1 flex gap-4 items-center cursor-pointer">
-                <span>
-                  <FaBookmark className="text-[18px]" />
-                </span>
-                <span className="text-[#FFFFFFB2] text-[16px]">Reports</span>
-              </div>
-              {showReportsSubmenu ? (
-                <MdKeyboardArrowUp className="text-gray-300 text-2xl" />
-              ) : (
-                <MdKeyboardArrowDown className="text-gray-300 text-2xl" />
-              )}
-            </div>
-          </div>
-
-          <div
-            className={` mt-1 flex flex-col border-l border-stone-700   gap-1 ml-12 pl-2 text-sm text-gray-300 text-[1.1rem] overflow-hidden transition-[max-height] duration-300 ${
-              showReportsSubmenu ? "max-h-40" : "max-h-0"
-            }`}
-          >
-            {" "}
-            <NavLink
-              to={"/reports/drivers"}
-              className={({ isActive }) =>
-                `${
-                  isActive ? "bg-stone-700" : ""
-                } mb-1.5 hover:bg-stone-700 p-2 rounded-md`
-              }
-            >
-              Driver's Reports
-            </NavLink>
-            <NavLink
-              to={"/reports/mechanics"}
-              className={({ isActive }) =>
-                `${
-                  isActive ? "bg-stone-700" : ""
-                } mb-1.5 hover:bg-stone-700 p-2 rounded-md`
-              }
-            >
-              Mechanic's Report
-            </NavLink>
-          </div>
-        </div>
-
-        <div className="item flex flex-col mb-3  text-[1.1rem] rounded-md ">
-          <NavLink
-            to={"/vehicles"}
-            className={({ isActive }) =>
-              `${
-                isActive ? "bg-stone-700" : ""
-              } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
-            }
-          >
-            <span>
-              <FaCar className="text-[20px]" />
-            </span>
-            <span className="text-[#FFFFFFB2] text-[16px]">Vehicles</span>
-          </NavLink>
-
-          {/* <div
-            className={` mt-1 flex flex-col border-l border-stone-700   gap-1 ml-12 pl-2 text-sm text-gray-300 text-[1.1rem] overflow-hidden transition-[max-height] duration-300 ${
-              showVehiclesSubmenu ? "max-h-40" : "max-h-0"
-            }`}
-          ></div> */}
-        </div>
-        <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
-          <NavLink
-            to={"/trips"}
-            className={({ isActive }) =>
-              `${
-                isActive ? "bg-stone-700" : ""
-              } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
-            }
-          >
-            <span>
-              <FaGgCircle className="text-[20px]" />
-            </span>
-            <span className="text-[#FFFFFFB2] text-[16px]">Trips</span>
-          </NavLink>
-        </div>
-        <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
-          <NavLink
-            to={"/maintience"}
-            className={({ isActive }) =>
-              `${
-                isActive ? "bg-stone-700" : ""
-              } flex  flex-1  gap-4  items-center cursor-pointer hover:bg-stone-700 rounded-md p-2`
-            }
-          >
-            <span>
-              <FaTools className="text-[19px]" />
-            </span>
-            <span className="text-[#FFFFFFB2] text-[16px]">Maintenance</span>
-          </NavLink>
         </div>
       </div>
       <button
