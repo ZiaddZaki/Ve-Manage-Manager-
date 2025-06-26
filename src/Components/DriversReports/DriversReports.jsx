@@ -3,6 +3,8 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ReportCard from "./ReportCard";
 import { ChevronDown } from "lucide-react";
+import Loader from "../Loader/Loader";
+import FetchWrapper from "../FetchWrapper";
 
 const DriversReports = () => {
   const [open, setOpen] = useState(false);
@@ -53,58 +55,68 @@ const DriversReports = () => {
   });
 
   return (
-    <div>
-      <div className="text-center mb-7 w-[100%] py-[0.5rem] bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
-        Drivers Reports
-      </div>
+    <>
       <div>
-        <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-3 bg-white text-black border border-black rounded-full px-4 py-1 shadow-sm hover:shadow-md transition ml-4"
+        <div className="text-center mb-7 w-[100%] py-[0.5rem] bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
+          Drivers Reports
+        </div>
+          <div>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-3 bg-white text-black border border-black rounded-full px-4 py-1 shadow-sm hover:shadow-md transition ml-4"
+      >
+        {selected}
+        <ChevronDown className="w-4 h-4" />
+      </button>
+      <div
+        className={`flex flex-col items-start px-3 w-[150px] mt-2 bg-stone-100 border border-stone-400 rounded-md shadow-lg  ml-4 pl-2 border-loverflow-hidden transition-[max-height] duration-300 ${
+          open ? "max-h-40 " : "max-h-0 overflow-hidden border-none "
+        }`}
+      >
+        <span
+          className="mb-1 cursor-pointer text-base hover:text-lg transition-all font-bold text-blue-500"
+          onClick={() => {
+            setSelected("All");
+            setOpen(false);
+          }}
         >
-          {selected}
-          <ChevronDown className="w-4 h-4" />
-        </button>
-        {open && (
-          <div className="flex flex-col items-start px-3 w-[150px] h-[90px] bg-stone-100 border border-stone-400 rounded-md shadow-lg mt-2 ml-4 ">
-            <span
-              className="mb-1 cursor-pointer text-base hover:text-lg transition-all"
-              onClick={() => {
-                setSelected("All");
-                setOpen(false);
-              }}
-            >
-              ALL
-            </span>
-            <span
-              className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-green-700"
-              onClick={() => {
-                setSelected("Trip");
-                setOpen(false);
-              }}
-            >
-              Trip Completed
-            </span>
-            <span
-              className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-red-700"
-              onClick={() => {
-                setSelected("Fault");
-                setOpen(false);
-              }}
-            >
-              Fault Reports
-            </span>
-          </div>
-        )}
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 my-5 mx-5">
-        <ReportCard
-          data={filteredData}
-          isLoading={isLoading}
-          formatDateTime={formatDateTime}
-        />
+          All
+        </span>
+        <span
+          className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-red-700 font-bold"
+          onClick={() => {
+            setSelected("Fault");
+            setOpen(false);
+          }}
+        >
+          Fault Reports
+        </span>
+        <span
+          className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-green-700 font-bold"
+          onClick={() => {
+            setSelected("Trip");
+            setOpen(false);
+          }}
+        >
+          Trip Reports
+        </span>
       </div>
     </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 my-5 mx-5">
+        <FetchWrapper  isLoading={isLoading} data={filteredData} >
+          <ReportCard
+            data={filteredData}
+            isLoading={isLoading}
+            formatDateTime={formatDateTime}
+            />
+          </FetchWrapper>
+      </div>
+        )}
+    </div>
+      </>
   );
 };
 

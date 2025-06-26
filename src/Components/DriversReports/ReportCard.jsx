@@ -1,10 +1,11 @@
-import { Settings, Check, Loader } from "lucide-react";
+import { Settings, Check } from "lucide-react";
+import Loader from "../Loader/Loader";
 
 const ReportCard = ({ data, isLoading, formatDateTime }) => {
   if (isLoading)
     return (
       <div className="text-center">
-        <Loader />
+        <Loader/>
       </div>
     );
 
