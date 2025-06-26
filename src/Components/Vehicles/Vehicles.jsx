@@ -69,7 +69,7 @@ export default function Vehicles() {
                 index + 1,
                 item.name,
                 item.palletNumber,
-                item.joindYear,
+                item.joinedYear,
                 item.category,
               ],
             }))}
