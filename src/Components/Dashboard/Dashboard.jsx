@@ -6,7 +6,7 @@ export default function Dashboard() {
   return (
     <div className="main">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-black text-white  rounded-xl w-[85%] shadow-md ">
+        <div className="bg-black text-white  rounded-xl  shadow-md w-[100%] ">
           <div className="flex flex-col gap-4 p-4">
             <span className="text-sm font-semibold mb-1">Fleets</span>
             <span className="text-2xl mb-3 font-medium">1, 283</span>
