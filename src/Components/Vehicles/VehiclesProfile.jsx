@@ -14,7 +14,7 @@ export default function VehiclesProfile() {
    async function getVehicleById() {
     try {
       const response = await axios.get(
-        `http://veemanage.runasp.net/api/Vehicle/${id}`,{
+        `https://veemanage.runasp.net/api/Vehicle/${id}`,{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             }

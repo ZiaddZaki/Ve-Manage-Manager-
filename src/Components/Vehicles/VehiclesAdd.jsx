@@ -69,7 +69,7 @@ export default function VehiclesAdd() {
       setIsLoading(true);
       try {
         const res = await axios.post(
-          "http://localhost:5034/api/Account/login",
+          "https://localhost:5034/api/Account/login",
           data
         );
         console.log("Login Successful:", res.data);

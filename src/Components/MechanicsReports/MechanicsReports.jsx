@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
@@ -35,7 +35,7 @@ export default function MechanicsReports() {
 
   async function getMechanicReports() {
     try {
-      const res = await axios.get("http://veemanage.runasp.net/api/Maintenance/Report/reports/", {
+      const res = await axios.get("https://veemanage.runasp.net/api/Maintenance/Report/reports/", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
              params: {
@@ -57,6 +57,41 @@ export default function MechanicsReports() {
     return item.reportType === selected;
   });
 
+  async function markAsSeen(reportId) {
+    try {
+      const res = await axios.patch(
+        `https://veemanage.runasp.net/api/Maintenance/Report/reports/${reportId}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          // params: {
+          //   seen: true,
+          //   Sort: "DateDesc", 
+          // },
+        }
+      );
+      if (res.status === 200) {
+        console.log("Report marked as seen:", res?.data);
+        console.log("id",reportId);
+        
+      }
+    } catch (err) {
+      console.error("Error marking report as seen:", err);
+              console.log("id",reportId);
+
+    }
+  };
+  
+  const { mutate: markReportAsSeen } = useMutation({
+    mutationFn: markAsSeen,
+    onSuccess: () => {
+      QueryClient.invalidateQueries(["mechanicReports"]);
+    },
+        
+
+  });
 
   return (
     <>
@@ -73,12 +108,12 @@ export default function MechanicsReports() {
     <ChevronDown className="w-4 h-4" />
   </button>
   <div
-    className={`flex flex-col items-start px-3 w-[150px] mt-2 bg-stone-100 border border-stone-400 rounded-md shadow-lg  ml-4 pl-2 border-loverflow-hidden transition-[max-height] duration-300 ${
+    className={`flex flex-col items-start  w-[150px] mt-2 bg-stone-100 border border-stone-400 rounded-md shadow-lg  ml-4  border-loverflow-hidden transition-[max-height] duration-300 ${
       open ? "max-h-40 " : "max-h-0 overflow-hidden border-none "
     }`}
   >
     <span
-      className="mb-1 cursor-pointer text-base hover:text-lg transition-all font-bold text-blue-500"
+      className="hover:bg-stone-200  cursor-pointer text-sm transition-all font-bold text-blue-500 border-b-2 w-full px-2 py-1"
       onClick={() => {
         setSelected("All");
         setOpen(false);
@@ -87,7 +122,7 @@ export default function MechanicsReports() {
       All
     </span>
     <span
-      className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-yellow-500 font-bold"
+      className="hover:bg-stone-200  cursor-pointer text-sm transition-all text-yellow-500 font-bold border-b-2 w-full px-2 py-1"
       onClick={() => {
         setSelected("Initial");
         setOpen(false);
@@ -96,7 +131,7 @@ export default function MechanicsReports() {
       Initial Reports
     </span>
     <span
-      className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-green-500 font-bold"
+      className="hover:bg-stone-200  cursor-pointer text-sm transition-all text-green-500 font-bold  w-full px-2 py-1"
       onClick={() => {
         setSelected("Final");
         setOpen(false);
@@ -109,7 +144,7 @@ export default function MechanicsReports() {
         <div className="font-Inter font-[540] w-full p-1 md:p-3 text-[0.75rem] md:text-[0.9rem] lg:text-[1.1rem] flex flex-col gap-3">
           <FetchWrapper isLoading={isLoading} error={error}>
 
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
+            <div className="grid grid-cols-1  lg:grid-cols-2 gap-4 p-4">
               {filteredData?.map((report, index) => {
                 const isInitial = report?.reportType === "Initial";
                 const reportDetails = isInitial
@@ -186,13 +221,13 @@ export default function MechanicsReports() {
                 <div
                   className={`${
                     report?.reportType === "Initial" ? `border-yellow-500` : `border-green-500`
-                  } bg-[#FFFFFF] p-3 rounded border-l-8 flex flex-col`}
+                  } ${report?.seen ? `bg-gray-200` : `bg-[#FFFFFF]`} p-3 rounded border-l-8 flex flex-col`}
                   key={index}
                 >
                   <div className="text-black font-semibold mb-3 text-xl">
                     {report?.reportType} Report
                   </div>
-                  <div className="flex flex-col gap-2 p-1">
+                  <div className="flex flex-col gap-2 p-1 justify-between">
                     {reportDetails.map((detail, i) => (
                       <div key={i}>
                         <span className="font-semibold">{detail.title} : </span>
@@ -200,7 +235,13 @@ export default function MechanicsReports() {
                       </div>
                     ))}
                   </div>
-                  <button className="mt-3 bg-blue-500 text-white py-1 px-3 rounded-md ml-auto">Mark as Seen</button>
+                  {report?.seen ? (
+                    <div className="text-gray-500">Report has been seen</div>
+                  ) : (
+                    <button className="mt-auto bg-blue-500 text-white py-1 px-3 rounded-md ml-auto"
+                    onClick={() => markReportAsSeen(report.id)}
+                    >Mark as Seen</button>
+                  )}
                 </div>
               );
             })}

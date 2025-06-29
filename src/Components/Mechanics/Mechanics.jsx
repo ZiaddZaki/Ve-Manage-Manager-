@@ -14,12 +14,12 @@ export default function Mechans() {
   });
   async function getDataOfUsers() {
     try {
-      const res = await axios.get("http://veemanage.runasp.net/api/User/mechanics", {
+      const res = await axios.get("https://veemanage.runasp.net/api/User/all/mechanic", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      // console.log("mechanic data", res?.data);
+      console.log("mechanic data", res?.data);
       return res?.data;
     } catch (error) {
       // console.error("Error fetching users:", error);
@@ -36,7 +36,7 @@ export default function Mechans() {
       <AllUsersTable
                   keyOfQuery={"mechanics"}
 
-        baseUrl="http://veemanage.runasp.net/api/User"
+        baseUrl="https://veemanage.runasp.net/api/User"
 
       titles={[
         "ID",

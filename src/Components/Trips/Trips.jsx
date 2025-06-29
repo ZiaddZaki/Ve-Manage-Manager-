@@ -9,7 +9,7 @@ const Trips = () => {
   async function getTips() {
     try {
       const response = await axios.get(
-        "http://veemanage.runasp.net/api/TripRequest/",
+        "https://veemanage.runasp.net/api/TripRequest/",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

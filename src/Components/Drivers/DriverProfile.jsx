@@ -16,7 +16,7 @@ import Profile from '../Profile/Profile';
         
           async function getProfileData() {
             try {
-              const res = await axios.get(`http://veemanage.runasp.net/api/User/${id}`,{
+              const res = await axios.get(`https://veemanage.runasp.net/api/User/${id}`,{
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
