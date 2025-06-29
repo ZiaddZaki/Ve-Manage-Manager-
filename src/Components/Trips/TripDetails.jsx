@@ -9,7 +9,7 @@ export default function TripDetails() {
   async function getTripDetails() {
     try {
       const res = await axios.get(
-        `http://veemanage.runasp.net/api/TripRequest/${id}`,
+        `https://veemanage.runasp.net/api/TripRequest/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

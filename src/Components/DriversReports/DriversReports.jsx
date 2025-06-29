@@ -14,7 +14,7 @@ const DriversReports = () => {
     //fetching completed trips
     try {
       const response = await axios.get(
-        "http://veemanage.runasp.net/api/DriverReport/reports",
+        "https://veemanage.runasp.net/api/DriverReport/reports",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -69,12 +69,12 @@ const DriversReports = () => {
         <ChevronDown className="w-4 h-4" />
       </button>
       <div
-        className={`flex flex-col items-start px-3 w-[150px] mt-2 bg-stone-100 border border-stone-400 rounded-md shadow-lg  ml-4 pl-2 border-loverflow-hidden transition-[max-height] duration-300 ${
+        className={`flex flex-col items-start  w-[150px] mt-2 bg-stone-100 border border-stone-400 rounded-md shadow-lg  ml-4  border-loverflow-hidden transition-[max-height] duration-300 ${
           open ? "max-h-40 " : "max-h-0 overflow-hidden border-none "
         }`}
       >
         <span
-          className="mb-1 cursor-pointer text-base hover:text-lg transition-all font-bold text-blue-500"
+          className="hover:bg-stone-200 cursor-pointer text-sm   transition-all font-bold text-blue-500 border-b-2 w-full px-2 py-1"
           onClick={() => {
             setSelected("All");
             setOpen(false);
@@ -83,7 +83,7 @@ const DriversReports = () => {
           All
         </span>
         <span
-          className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-red-700 font-bold"
+          className="hover:bg-stone-200 cursor-pointer text-sm   transition-all text-red-500 font-bold border-b-2 w-full px-2 py-1"
           onClick={() => {
             setSelected("Fault");
             setOpen(false);
@@ -92,7 +92,7 @@ const DriversReports = () => {
           Fault Reports
         </span>
         <span
-          className="mb-1 cursor-pointer text-base hover:text-lg transition-all text-green-700 font-bold"
+          className="hover:bg-stone-200 cursor-pointer text-sm   transition-all text-green-600 font-bold  w-full px-2 py-1"
           onClick={() => {
             setSelected("Trip");
             setOpen(false);

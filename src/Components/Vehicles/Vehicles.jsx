@@ -15,7 +15,7 @@ export default function Vehicles() {
   async function getVehicles() {
     try {
       const response = await axios.get(
-        "http://veemanage.runasp.net/api/Vehicle",
+        "https://veemanage.runasp.net/api/Vehicle",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -60,7 +60,7 @@ export default function Vehicles() {
         <FetchWrapper isLoading={isLoading} data={data}>
           <AllUsersTable
             keyOfQuery={"vehicles"}
-            baseUrl="http://veemanage.runasp.net/api/Vehicle"
+            baseUrl="https://veemanage.runasp.net/api/Vehicle"
             titles={["ID", "Model", "Palet Number", "Joind Year", "Category"]}
             rows={data?.map((item, index) => ({
               link: `/VehiclesProfile/${item.id}`,
