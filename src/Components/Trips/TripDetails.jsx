@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { functionsIn } from "lodash";
 import React from "react";
 import { useParams } from "react-router";
 
@@ -20,10 +21,35 @@ export default function TripDetails() {
       return res?.data || {};
     } catch (err) {
       console.error("Error fetching trip details:", err);
-      return {};
+    throw err;
     }
   }
+async function tripLocation(){
+  
+  try{
+    const res=await axios.get(`https://veemanage.runasp.net/api/TripLocation/${id}`,
+    {
+      headers:{
+      Authorization:`Bearer ${localStorage.getItem("token")}`
+      }
+    }
+  )
+  console.log(res);
+  return res || []
+  
+}
+catch(err){
+  console.log(err);
+    throw err;
 
+  
+}
+}
+const {data:tripLocationData,isLoading:LocationIsloading}=useQuery({
+  queryFn:tripLocation,
+  queryKey:["triplocation"],
+   enabled: !!id
+})
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleString("en-GB", {

@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
@@ -8,13 +8,13 @@ import { ChevronDown } from "lucide-react";
 export default function MechanicsReports() {
     const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("All");
+  const [type, setType] = useState("");
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["mechanicReports"],
     queryFn: getMechanicReports,
   });
 
-  // Function to format ISO date string to a readable date and time
   const formatDate = (isoDate) => {
     if (!isoDate) return "N/A";
     try {
@@ -60,7 +60,7 @@ export default function MechanicsReports() {
   async function markAsSeen(reportId) {
     try {
       const res = await axios.patch(
-        `https://veemanage.runasp.net/api/Maintenance/Report/reports/${reportId}`,
+        `https://veemanage.runasp.net/api/Maintenance/Report/${type}/${reportId}/mark-as-seen`,
 
         {
           headers: {
@@ -83,14 +83,14 @@ export default function MechanicsReports() {
 
     }
   };
+  const queryClient = useQueryClient();
+
   
   const { mutate: markReportAsSeen } = useMutation({
     mutationFn: markAsSeen,
     onSuccess: () => {
-      QueryClient.invalidateQueries(["mechanicReports"]);
+      queryClient.invalidateQueries(["mechanicReports"]);
     },
-        
-
   });
 
   return (
@@ -221,7 +221,7 @@ export default function MechanicsReports() {
                 <div
                   className={`${
                     report?.reportType === "Initial" ? `border-yellow-500` : `border-green-500`
-                  } ${report?.seen ? `bg-gray-200` : `bg-[#FFFFFF]`} p-3 rounded border-l-8 flex flex-col`}
+                  } ${report?.seen ? `bg-[#FFFFFF] opacity-55  hover:opacity-100 ` : `bg-[#FFFFFF]`} p-3 rounded border-l-8 flex flex-col shadow-md`}
                   key={index}
                 >
                   <div className="text-black font-semibold mb-3 text-xl">
@@ -239,7 +239,9 @@ export default function MechanicsReports() {
                     <div className="text-gray-500">Report has been seen</div>
                   ) : (
                     <button className="mt-auto bg-blue-500 text-white py-1 px-3 rounded-md ml-auto"
-                    onClick={() => markReportAsSeen(report.id)}
+                    onClick={() =>{ markReportAsSeen(report.id)
+                      setType(report.reportType)
+                    }}
                     >Mark as Seen</button>
                   )}
                 </div>
