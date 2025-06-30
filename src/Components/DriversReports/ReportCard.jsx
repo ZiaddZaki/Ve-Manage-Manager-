@@ -1,11 +1,16 @@
 import { Settings, Check } from "lucide-react";
 import Loader from "../Loader/Loader";
 
-const ReportCard = ({ data, isLoading, formatDateTime }) => {
+const ReportCard = ({
+  data,
+  isLoading,
+  formatDateTime,
+  markAsSeenMutation,
+}) => {
   if (isLoading)
     return (
       <div className="text-center">
-        <Loader/>
+        <Loader />
       </div>
     );
 
@@ -77,7 +82,14 @@ const ReportCard = ({ data, isLoading, formatDateTime }) => {
             ];
 
         return (
-          <div key={index}>
+          <div
+            key={index}
+            className={`${
+              item?.seen == true
+                ? "bg-[#FFFFFF] opacity-55  hover:opacity-100"
+                : ""
+            }`}
+          >
             <div
               className={`${
                 isTrip ? "bg-[#4CAF50]" : "bg-[#FA2E2E]"
@@ -100,7 +112,7 @@ const ReportCard = ({ data, isLoading, formatDateTime }) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 p-4 bg-white pb-8">
+            <div className="grid grid-cols-2 gap-4 p-4 pb-8 ">
               {reportDetails.map((detail, i) => (
                 <div
                   key={i}
@@ -121,9 +133,16 @@ const ReportCard = ({ data, isLoading, formatDateTime }) => {
             <div className="bg-white">
               <hr className="border-t-2 border-gray-400 mb-2" />
               <div className="flex justify-end gap-2 px-2">
-                <button className="bg-[#3567DB] text-white px-5 py-2 rounded-xl my-2">
-                  Mark as Seen
-                </button>
+                {item.seen == false && (
+                  <button
+                    onClick={() => {
+                      markAsSeenMutation(item.id);
+                    }}
+                    className="bg-[#3567DB] text-white px-5 py-2 rounded-xl my-2"
+                  >
+                    Mark as Seen
+                  </button>
+                )}
                 {!isTrip && (
                   <button className="bg-[#FF9800] text-white px-5 py-2 rounded-xl my-2">
                     Send To Mechanic

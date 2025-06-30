@@ -231,7 +231,7 @@ export default function MechanicsReports() {
                     {reportDetails.map((detail, i) => (
                       <div key={i}>
                         <span className="font-semibold">{detail.title} : </span>
-                        {detail.value}
+                        {detail.value}  
                       </div>
                     ))}
                   </div>
