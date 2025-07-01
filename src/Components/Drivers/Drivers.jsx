@@ -14,13 +14,13 @@ export default function Drivers() {
 
   async function getDataOfUsers() {
     try {
-      const res = await axios.get("http://veemanage.runasp.net/api/User/drivers", {
+      const res = await axios.get("https://veemanage.runasp.net/api/User/all/driver", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
 
       });
-      console.log("driver data", res?.data[0].id);
+      console.log("driver data", res?.data);
       return res?.data;
       
 
@@ -42,7 +42,7 @@ export default function Drivers() {
         <AllUsersTable 
                     keyOfQuery={"drivers"}
 
-          baseUrl="http://veemanage.runasp.net/api/User"
+          baseUrl="https://veemanage.runasp.net/api/User"
 
           titles={[
           "ID",
