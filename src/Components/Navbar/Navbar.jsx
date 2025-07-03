@@ -23,7 +23,9 @@ export default function Navbar({ isVisable, handleToggle }) {
           <FaUser />
           
         </span>
-        <span className="">Ziad Mahmoud</span>
+        <span className="">
+          {localStorage.getItem("displayName")}
+        </span>
       </div>
     </div>
   );
