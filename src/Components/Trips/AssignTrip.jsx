@@ -19,10 +19,7 @@ const AssignTrip = () => {
     details: Yup.string().required("Details are required"),
     pickupLocation: Yup.string().required("Pickup location is required"),
     destination: Yup.string().required("Destination is required"),
-    
   });
-
-  
 
   const defaultValues = {
     driverId: "",
@@ -33,7 +30,6 @@ const AssignTrip = () => {
     details: "",
     pickupLocation: "",
     destination: "",
-  
   };
 
   const {
@@ -52,9 +48,7 @@ const AssignTrip = () => {
   const [tempDate, setTempDate] = useState("");
   const [Finaldate, setFinalDate] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  console.log("category id",categoryId);
-  
-
+  console.log("category id", categoryId);
 
   async function getDrivers() {
     try {
@@ -62,26 +56,23 @@ const AssignTrip = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        params:{
-          Role:"driver",
-          TripDate:Finaldate,
-          filter:"FreeDrivers"
-        
-        }
+        params: {
+          Role: "driver",
+          TripDate: Finaldate,
+          filter: "FreeDrivers",
+        },
       });
       console.log("drivers data", res?.data);
       return res?.data;
     } catch (err) {
+      console.error("Failed to fetch drivers:", err.message);
       throw err;
     }
   }
 
-  const {
-    data: driversData,
-    isLoading: isDriverDataLoading,
-  } = useQuery({
+  const { data: driversData, isLoading: isDriverDataLoading } = useQuery({
     queryFn: getDrivers,
-    queryKey: ["driverData",Finaldate],
+    queryKey: ["driverData", Finaldate],
   });
 
   async function getVehicles() {
@@ -90,11 +81,11 @@ const AssignTrip = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        params:{
-          CategoryId:categoryId,
-          TripDate:Finaldate,
-          AvailableForTrip:true
-        }
+        params: {
+          CategoryId: categoryId,
+          TripDate: Finaldate,
+          AvailableForTrip: true,
+        },
       });
       console.log("vehicles", res?.data);
       return res?.data;
@@ -104,11 +95,14 @@ const AssignTrip = () => {
   }
   async function getCategory() {
     try {
-      const res = await axios.get("https://veemanage.runasp.net/api/Vehicle/Category", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://veemanage.runasp.net/api/Vehicle/Category",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       console.log("category", res?.data);
       return res?.data;
     } catch (err) {
@@ -116,27 +110,18 @@ const AssignTrip = () => {
     }
   }
 
-  const {
-    data: vehiclesData,
-    isLoading: isVehiclesDataLoading,
-  } = useQuery({
+  const { data: vehiclesData, isLoading: isVehiclesDataLoading } = useQuery({
     queryFn: getVehicles,
-    queryKey: ["vehiclesData",categoryId,Finaldate],
+    queryKey: ["vehiclesData", categoryId, Finaldate],
   });
-  const {
-    data: categoryData,
-    isLoading: isCategoryLoading,
-  } = useQuery({
+  const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
     queryFn: getCategory,
     queryKey: ["categoryData"],
-
-
   });
 
   async function onSubmit(data) {
     setIsLoading(true);
-    console.log("data to be sent",data);
-    
+    console.log("data to be sent", data);
 
     try {
       const res = await axios.post(
@@ -149,14 +134,13 @@ const AssignTrip = () => {
         }
       );
       console.log(res);
-      toast.success("Trip is Sent")
+      toast.success("Trip is Sent");
       setIsPopupOpen(true);
     } catch (error) {
-     const errorMessage = error?.response?.data?.message || "Something went wrong";
-setError(errorMessage);
-toast.error(errorMessage);
-
-      
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong";
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
     setIsLoading(false);
   }
@@ -169,14 +153,12 @@ toast.error(errorMessage);
         <div className="head text-center">
           <span className="font-bold text-2xl">Assign Trip to Driver</span>
         </div>
-              <ToastContainer />
+        <ToastContainer />
 
-        {Error && (
-          <div className="text-red-500 text-center mt-4">{Error}</div>
-        )}
+        {Error && <div className="text-red-500 text-center mt-4">{Error}</div>}
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 ml-6">
-                <div className="flex flex-col items-start p-4 ml-6">
+            <div className="flex flex-col items-start p-4 ml-6">
               <span className="mb-2 text-lg font-medium font-Nunito text-[#666666]">
                 Trip Date
               </span>
@@ -185,22 +167,22 @@ toast.error(errorMessage);
                 {...register("date")}
                 name="date"
                 className="border border-stone-400 rounded-md px-3 py-2 h-[50px] w-[100%] focus:outline-none focus:ring-2 focus:ring-blue-600"
-                onChange={(e)=>{
-                setTempDate(e.target.value)
-                  setValue("date",e.target.value);
-                
-              }}
-              onBlur={()=>{
-                setFinalDate(tempDate)
-              }}/>
-              
+                onChange={(e) => {
+                  setTempDate(e.target.value);
+                  setValue("date", e.target.value);
+                }}
+                onBlur={() => {
+                  setFinalDate(tempDate);
+                }}
+              />
+
               {errors.date && (
                 <span className="text-red-500 text-sm mt-1">
                   {errors.date.message}
                 </span>
               )}
             </div>
-                        <div className="flex flex-col items-start p-4 ml-6">
+            <div className="flex flex-col items-start p-4 ml-6">
               <span className="mb-2 text-lg font-medium font-Nunito text-[#666666]">
                 Category
               </span>
@@ -208,12 +190,12 @@ toast.error(errorMessage);
                 <select
                   className="appearance-none border border-stone-400 rounded-md px-3 py-2 h-[50px] w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
                   disabled={isCategoryLoading}
-                  onChange={(e)=>
-                    setCategoryId(e.target.value)
-                  }
+                  onChange={(e) => setCategoryId(e.target.value)}
                 >
                   <option value="" disabled>
-                    {isCategoryLoading ? "Loading Categories..." : "Select Category..."}
+                    {isCategoryLoading
+                      ? "Loading Categories..."
+                      : "Select Category..."}
                   </option>
                   {categoryData?.map((category) => (
                     <option key={category.id} value={category.id}>
@@ -222,10 +204,8 @@ toast.error(errorMessage);
                   ))}
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-8 text-blue-600" />
-            
               </div>
             </div>
-            
 
             {/* Driver ID (Select) */}
             <div className="flex flex-col items-start p-4 ml-6">
@@ -236,14 +216,16 @@ toast.error(errorMessage);
                 <select
                   {...register("driverId")}
                   className="appearance-none border border-stone-400 rounded-md px-3 py-2 h-[50px] w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  disabled={Finaldate=="" || isDriverDataLoading}
+                  disabled={Finaldate == "" || isDriverDataLoading}
                 >
                   <option value="" disabled>
-                    {isDriverDataLoading ? "Loading drivers..." : "Select driver..."}
+                    {isDriverDataLoading
+                      ? "Loading drivers..."
+                      : "Select driver..."}
                   </option>
                   {driversData?.map((driver) => (
                     <option key={driver.id} value={driver.id}>
-                      {driver.displayName }
+                      {driver.displayName}
                     </option>
                   ))}
                 </select>
@@ -265,17 +247,24 @@ toast.error(errorMessage);
                 <select
                   {...register("vehicleId")}
                   className="appearance-none border border-stone-400 rounded-md px-3 py-2 h-[50px] w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  disabled={(Finaldate=="" && categoryId=="" ) ||isVehiclesDataLoading}
+                  disabled={
+                    (Finaldate == "" && categoryId == "") ||
+                    isVehiclesDataLoading
+                  }
                 >
                   <option value="" disabled>
-                    {isVehiclesDataLoading ? "Loading vehicles..." : "Select vehicle..."}
+                    {isVehiclesDataLoading
+                      ? "Loading vehicles..."
+                      : "Select vehicle..."}
                   </option>
-                  {vehiclesData?.map((vehicle) => (
-                    vehicle.status=="Active"&&
-                    <option key={vehicle.id} value={vehicle.id}>
-                      {vehicle.name}
-                    </option>
-                  ))}
+                  {vehiclesData?.map(
+                    (vehicle) =>
+                      vehicle.status == "Active" && (
+                        <option key={vehicle.id} value={vehicle.id}>
+                          {vehicle.name}
+                        </option>
+                      )
+                  )}
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-8 text-blue-600" />
                 {errors.vehicleId && (
@@ -312,7 +301,6 @@ toast.error(errorMessage);
             </div>
 
             {/* Trip Date */}
-        
 
             {/* Pickup Location */}
             <div className="flex flex-col items-start p-4 ml-6">
@@ -333,10 +321,8 @@ toast.error(errorMessage);
             </div>
 
             {/* Pickup Latitude */}
-         
 
             {/* Pickup Longitude */}
-          
 
             {/* Destination */}
             <div className="flex flex-col items-start p-4 ml-6">
@@ -356,10 +342,7 @@ toast.error(errorMessage);
               )}
             </div>
 
-         
-
             {/* Destination Longitude */}
-          
           </div>
 
           {/* Details */}
@@ -371,7 +354,7 @@ toast.error(errorMessage);
               placeholder="Additional info..."
               {...register("details")}
               className="border border-stone-400 rounded-md px-3 py-2 w-[90%] h-[150px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+            />
             {errors.details && (
               <span className="text-red-500 text-sm mt-1">
                 {errors.details.message}
@@ -390,9 +373,13 @@ toast.error(errorMessage);
             </button>
           </div>
         </form>
-        {isPopupOpen && <Popup status={true} link={"/trips"} onClose={() => setIsPopupOpen(false)}
-        
-        />}
+        {isPopupOpen && (
+          <Popup
+            status={true}
+            link={"/trips"}
+            onClose={() => setIsPopupOpen(false)}
+          />
+        )}
       </div>
     </>
   );
