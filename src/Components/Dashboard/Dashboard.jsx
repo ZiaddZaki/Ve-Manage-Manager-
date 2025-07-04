@@ -15,19 +15,19 @@ export default function Dashboard() {
         <div className="bg-white text-black border border-stone-300 shadow-md  rounded-xl w-[100%]">
           <div className="flex flex-col gap-4 p-4">
             <span className="text-sm font-semibold mb-1">Fleets</span>
-            <span className="text-2xl mb-3 font-medium">1, 283</span>
+            <span className="text-2xl mb-3 font-medium">2, 983</span>
           </div>
         </div>
         <div className="bg-white text-black border border-stone-300 shadow-md  rounded-xl w-[100%]">
           <div className="flex flex-col gap-4 p-4">
             <span className="text-sm font-semibold mb-1">Fleets</span>
-            <span className="text-2xl mb-3 font-medium">1, 283</span>
+            <span className="text-2xl mb-3 font-medium">523</span>
           </div>
         </div>
         <div className="bg-white text-black border border-stone-300 shadow-md  rounded-xl w-[100%]">
           <div className="flex flex-col gap-4 p-4">
             <span className="text-sm font-semibold mb-1">Fleets</span>
-            <span className="text-2xl mb-3 font-medium">1, 283</span>
+            <span className="text-2xl mb-3 font-medium">128</span>
           </div>
         </div>
         </div>

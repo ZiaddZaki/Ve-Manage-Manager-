@@ -32,6 +32,7 @@ const AssignTrip = () => {
         <div className="col-span-2 flex flex-col items-start p-4 ml-6">
           <span className="text-lg font-medium font-Nunito text-[#666666]">
             Details
+            
           </span>
           <textarea
             placeholder="Additional info..."
