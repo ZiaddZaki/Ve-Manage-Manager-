@@ -6,6 +6,8 @@ const ReportCard = ({
   isLoading,
   formatDateTime,
   markAsSeenMutation,
+  type,
+  setType,
 }) => {
   if (isLoading)
     return (
@@ -136,7 +138,13 @@ const ReportCard = ({
                 {item.seen == false && (
                   <button
                     onClick={() => {
-                      markAsSeenMutation(item.id);
+                      item.reportType == "Fault"
+                        ? markAsSeenMutation(
+                            `https://veemanage.runasp.net/api/Trip/Report/Fault/Report/Fault/${item.id}/mark-as-seen`
+                          )
+                        : markAsSeenMutation(
+                            `https://veemanage.runasp.net/api/TripReport/Report/Regular/${item.id}/mark-as-seen`
+                          );
                     }}
                     className="bg-[#3567DB] text-white px-5 py-2 rounded-xl my-2"
                   >
