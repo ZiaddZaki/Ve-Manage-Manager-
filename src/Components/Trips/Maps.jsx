@@ -118,7 +118,8 @@ export default function TrackingMap({ id }) {
         <div className={`bg-blue-500  h-full rounded-xl relative`}style={{
            width: `${tripPrecentege}%` 
         }} >
-          <span className="absolute -top-8 px-1 rounded-lg bg-white border border-blue-500  whitespace-nowrap" >
+          <span className="text-white p-3 "> Trip Progress  </span> 
+          <span className="absolute -top-8 px-1 right-0 rounded-lg bg-white border border-blue-500  whitespace-nowrap" >
 
              {tripPrecentege} %
           </span>

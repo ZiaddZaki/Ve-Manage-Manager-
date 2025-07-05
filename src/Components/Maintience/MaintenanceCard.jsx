@@ -293,7 +293,7 @@ export default function MaintenanceCard() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 "
+                        className={` text-white px-4 py-2 rounded-md hover:bg-blue-700 ${isSending?"bg-blue-300" :"bg-blue-600"}`}
                         onClick={() => mutate()}
                         disabled={isSending}
                       >
