@@ -116,12 +116,10 @@ export default function TripDetails() {
           </div>
         ))}
       </div>
-      <div className=" py-9 px-5 rounded-lg shadow-lg border border-stone-300 gap-4 ">
-        <div className="font-bold text-lg mb-3">Current Location</div>
-        <div className="h-[100%] w-full bg-gray-200 rounded-lg">
+     
+        <div className="h-[100%] w-fullrounded-lg">
           <TrackingMap id={id} />
         </div>
-      </div>
     </>
   );
 }
