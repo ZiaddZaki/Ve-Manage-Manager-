@@ -57,8 +57,8 @@ export default function TrackingMap({ id }) {
           },
         }
       );
-      console.log(res?.data);
-      return res?.data;
+      console.log(" maps det",res?.data?.data);
+      return res?.data?.data;
     } catch (err) {
       console.log(err);
       return null; // Return null on error to trigger fallback
@@ -71,14 +71,7 @@ export default function TrackingMap({ id }) {
   });
 
   // Static coordinates for testing
-  const defaultLocationData = {
-    startLat: 30.0444, // Cairo
-    startLng: 31.2357,
-    lat: 31.0364, // Mansoura (current)
-    lng: 31.3807,
-    destinationLat: 31.4175, // Damietta
-    destinationLng: 31.8133,
-  };
+
 
   // Use locationData if valid, otherwise fall back to defaults
   const isValidLocationData =
@@ -93,8 +86,7 @@ export default function TrackingMap({ id }) {
     ].every((val) => typeof val === "number" && !isNaN(val));
 
   const { startLat, startLng, lat, lng, destinationLat, destinationLng } = isValidLocationData
-    ? locationData
-    : defaultLocationData;
+    &&locationData
 
   if (isLoading && !isValidLocationData) {
     return <p>Loading map...</p>;
@@ -109,17 +101,17 @@ export default function TrackingMap({ id }) {
   // Calculate distance
   const Orignaldistance = haversineDistance(startLat, startLng, destinationLat, destinationLng).toFixed(2);
   const distance=60 
-  const tripPrecentege=100-((distance/Orignaldistance)*100).toFixed(2)
+  const tripPrecentege=(100-((distance/Orignaldistance)*100)).toFixed(2)
 
   return (
     <>
     
-      <div className="bg-white rounded-xl w-[100%]  mt-14 mb-9  shadow-lg h-8">
+      <div className="bg-white rounded-xl w-[100%]  mt-14 mb-9  shadow-lg h-9">
         <div className={`bg-blue-500  h-full rounded-xl relative`}style={{
            width: `${tripPrecentege}%` 
         }} >
-          <span className="text-white p-3 "> Trip Progress  </span> 
-          <span className="absolute -top-8 px-1 right-0 rounded-lg bg-white border border-blue-500  whitespace-nowrap" >
+          <span className="text-blue-950 p-3 whitespace-nowrap w-[100%]"> Trip Progress  </span> 
+          <span className="absolute -top-8 px-1 right-0  rounded-lg bg-white border border-blue-500  whitespace-nowrap" >
 
              {tripPrecentege} %
           </span>
