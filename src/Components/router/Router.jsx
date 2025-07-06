@@ -24,12 +24,12 @@ import MechanicsProfile from "../Mechanics/MechanicsProfile";
 // import Model from "../Vehicles/Model";
 // import Category from "../Vehicles/Category";
 // import Profile from "../Profile/Profile";
-import Trips from "../Trips/trips";
-import Maintience from "../Maintience/Maintience";
+import Trips from "../Trips/Trips";
 import DriversReports from "../DriversReports/DriversReports";
 import MechanicsReports from "../MechanicsReports/MechanicsReports";
 import TripDetails from "../Trips/TripDetails";
 import AssignTrip from "../Trips/AssignTrip";
+import MaintenanceCard from "../Maintience/MaintenanceCard";
 // import ManagersProfile from "../Manager/ManagersProfile";
 // import VehiclesProfile from "../Vehicles/VehiclesProfile";
 // import DriverProfile from "../Drivers/DriverProfile";
@@ -63,9 +63,10 @@ const Router = createBrowserRouter([
           { path: "/trips/:id", element: <TripDetails /> },
           { path: "/trip/add", element: <AssignTrip /> },
 
-          { path: "/maintience", element: <Maintience /> },
           { path: "/reports/drivers", element: <DriversReports /> },
           { path: "/reports/mechanics", element: <MechanicsReports /> },
+                    { path: "/maintience", element: <MaintenanceCard /> },
+
 
           // { path: "/vehicles/add", element: <VehiclesAdd /> },
           // { path: "/vehicles/model", element: <Model /> },

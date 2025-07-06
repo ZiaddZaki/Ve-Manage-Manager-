@@ -38,13 +38,13 @@ export default function AllUsersTable({
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case "pending":
-        return "bg-blue-500";
+        return "bg-yellow-500";
       case "completed":
         return "bg-green-500";
       case "in progress":
-        return "bg-orange-500";
+        return "bg-gray-500";
       default:
-        return "bg-gray-500"; // Fallback color
+        return "bg-blue-500"; // Fallback color
     }
   };
 
@@ -66,7 +66,7 @@ export default function AllUsersTable({
 
         {rows?.map((row, index) => (
           <div
-            className={`grid text-center mb-2 bg-white rounded-xl font-[300] shadow-sm relative transition duration-500 ${
+            className={`grid text-center mb-2 bg-white rounded-xl font-[300] shadow-sm relative transition duration-500 border-0 ${
               selectedRowIndex === index
                 ? "shadow-lg border-2 border-primaryColor"
                 : "border border-stone-300"

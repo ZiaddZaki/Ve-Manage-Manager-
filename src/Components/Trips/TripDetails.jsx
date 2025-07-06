@@ -3,6 +3,7 @@ import axios from "axios";
 import { functionsIn } from "lodash";
 import React from "react";
 import { useParams } from "react-router";
+import TrackingMap from "./Maps";
 
 export default function TripDetails() {
   const { id } = useParams();
@@ -21,35 +22,31 @@ export default function TripDetails() {
       return res?.data || {};
     } catch (err) {
       console.error("Error fetching trip details:", err);
-    throw err;
+      throw err;
     }
   }
-async function tripLocation(){
-  
-  try{
-    const res=await axios.get(`https://veemanage.runasp.net/api/TripLocation/${id}`,
-    {
-      headers:{
-      Authorization:`Bearer ${localStorage.getItem("token")}`
-      }
+  async function tripLocation() {
+    try {
+      const res = await axios.get(
+        `https://veemanage.runasp.net/api/TripLocation/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(res);
+      return res || [];
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
-  )
-  console.log(res);
-  return res || []
-  
-}
-catch(err){
-  console.log(err);
-    throw err;
-
-  
-}
-}
-const {data:tripLocationData,isLoading:LocationIsloading}=useQuery({
-  queryFn:tripLocation,
-  queryKey:["triplocation"],
-   enabled: !!id
-})
+  }
+  const { data: tripLocationData, isLoading: LocationIsloading } = useQuery({
+    queryFn: tripLocation,
+    queryKey: ["triplocation"],
+    enabled: !!id,
+  });
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleString("en-GB", {
@@ -119,13 +116,10 @@ const {data:tripLocationData,isLoading:LocationIsloading}=useQuery({
           </div>
         ))}
       </div>
-      <div className=" py-2 px-5 rounded-lg shadow-lg border border-stone-300 gap-4 ">
-        <div className="font-bold text-lg mb-3">Current Location</div>
-        <div className="h-[400px] w-full bg-gray-200 rounded-lg flex items-center justify-center">
-          {/* Placeholder for map component */}
-          <span className="text-gray-500">Map will be displayed here</span>
+     
+        <div className="h-[100%] w-fullrounded-lg">
+          <TrackingMap id={id} />
         </div>
-      </div>
     </>
   );
 }

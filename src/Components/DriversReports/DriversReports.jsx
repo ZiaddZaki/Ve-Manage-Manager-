@@ -54,16 +54,13 @@ const DriversReports = () => {
     return item.reportType === selected;
   });
 
-  async function markAsSeen(reportId) {
+  async function markAsSeen(api) {
     try {
-      const res = await axios.patch(
-        `https://veemanage.runasp.net/api/TripReport/Report/Regular/${reportId}/mark-as-seen`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.patch(api, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       console.log("Marked as seen:", res);
       return res;
     } catch (err) {
@@ -71,6 +68,7 @@ const DriversReports = () => {
       return [];
     }
   }
+
   const queryClient = useQueryClient();
 
   const { mutate: markAsSeenMutation } = useMutation({
@@ -78,9 +76,39 @@ const DriversReports = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["driversReports"] });
     },
-
-
   });
+
+  async function sendToMechanic({ mechanicId, vehicleId, description }) {
+    try {
+      const res = await axios.post(
+        "https://veemanage.runasp.net/api/Maintenance/Request",
+        {
+          mechanicId,
+          vehicleId,
+          maintenanceCategory: 0,
+          parts: [],
+          description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Sent to mechanic:", res);
+      return res;
+    } catch (err) {
+      console.error("Error sending to mechanic:", err);
+    }
+  }
+
+  const { mutate: sendToMechanicMutation } = useMutation({
+    mutationFn: sendToMechanic,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["driversReports"] });
+    },
+  });
+
   return (
     <>
       <div>
@@ -139,6 +167,7 @@ const DriversReports = () => {
                 isLoading={isLoading}
                 formatDateTime={formatDateTime}
                 markAsSeenMutation={markAsSeenMutation}
+                sendToMechanicMutation={sendToMechanicMutation}
               />
             </FetchWrapper>
           </div>
