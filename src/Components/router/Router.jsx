@@ -30,6 +30,7 @@ import MechanicsReports from "../MechanicsReports/MechanicsReports";
 import TripDetails from "../Trips/TripDetails";
 import AssignTrip from "../Trips/AssignTrip";
 import MaintenanceCard from "../Maintience/MaintenanceCard";
+import MaintenanceHistory from "../Maintience/MaintenanceHistory";
 // import ManagersProfile from "../Manager/ManagersProfile";
 // import VehiclesProfile from "../Vehicles/VehiclesProfile";
 // import DriverProfile from "../Drivers/DriverProfile";
@@ -65,8 +66,8 @@ const Router = createBrowserRouter([
 
           { path: "/reports/drivers", element: <DriversReports /> },
           { path: "/reports/mechanics", element: <MechanicsReports /> },
-                    { path: "/maintience", element: <MaintenanceCard /> },
-
+          { path: "/maintience", element: <MaintenanceCard /> },
+          { path: "/maintience/history", element: <MaintenanceHistory /> },
 
           // { path: "/vehicles/add", element: <VehiclesAdd /> },
           // { path: "/vehicles/model", element: <Model /> },
