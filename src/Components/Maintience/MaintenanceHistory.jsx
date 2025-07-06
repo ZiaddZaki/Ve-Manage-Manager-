@@ -45,6 +45,7 @@ const MaintenanceHistory = () => {
           {data?.map((item) => {
             const maintenanceDate = new Date(item.date).toLocaleDateString();
 
+
             return (
               <div
                 key={item.id}
@@ -101,7 +102,7 @@ const MaintenanceHistory = () => {
                     <ul className="list-disc pl-6 space-y-1 text-sm text-gray-600">
                       {item.parts.map((part) => (
                         <li key={part.id}>
-                          {part.name} — Qty: {part.quantity} — Cost: {part.cost}{" "}
+                          {part.name} — Qty: {part.quantity} — Cost: {part.cost}
                           EGP
                         </li>
                       ))}
