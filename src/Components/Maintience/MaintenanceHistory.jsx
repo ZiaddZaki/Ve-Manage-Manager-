@@ -15,6 +15,8 @@ const MaintenanceHistory = () => {
           },
         }
       );
+      console.log(res?.data?.data);
+
       return res.data?.data;
     } catch (error) {
       console.log(error);
@@ -38,7 +40,7 @@ const MaintenanceHistory = () => {
       <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
         Maintience History
       </div>
-      <div className="p-6 grid lg:grid-cols-2 gap-7 w-[95%] mx-auto">
+      <div className="p-6 grid lg:grid-cols-2 gap-7 md:w-[95%] mx-auto">
         <FetchWrapper data={data} isLoading={isLoading}>
           {data?.map((item) => {
             const maintenanceDate = new Date(item.date).toLocaleDateString();
@@ -88,8 +90,7 @@ const MaintenanceHistory = () => {
                 </p>
 
                 <p className="mb-2 text-gray-700">
-                  <strong>Manager:</strong> {item.manager?.displayName} (
-                  {item.manager?.phoneNumber})
+                  <strong>Manager:</strong> {item.manager?.displayName}
                 </p>
 
                 {item.parts?.length > 0 && (
