@@ -77,6 +77,38 @@ const DriversReports = () => {
       queryClient.invalidateQueries({ queryKey: ["driversReports"] });
     },
   });
+
+  async function sendToMechanic({ mechanicId, vehicleId, description }) {
+    try {
+      const res = await axios.post(
+        "https://veemanage.runasp.net/api/Maintenance/Request",
+        {
+          mechanicId,
+          vehicleId,
+          maintenanceCategory: 0,
+          parts: [],
+          description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Sent to mechanic:", res);
+      return res;
+    } catch (err) {
+      console.error("Error sending to mechanic:", err);
+    }
+  }
+
+  const { mutate: sendToMechanicMutation } = useMutation({
+    mutationFn: sendToMechanic,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["driversReports"] });
+    },
+  });
+
   return (
     <>
       <div>
@@ -135,6 +167,7 @@ const DriversReports = () => {
                 isLoading={isLoading}
                 formatDateTime={formatDateTime}
                 markAsSeenMutation={markAsSeenMutation}
+                sendToMechanicMutation={sendToMechanicMutation}
               />
             </FetchWrapper>
           </div>
