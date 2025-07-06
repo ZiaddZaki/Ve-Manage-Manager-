@@ -14,6 +14,7 @@ import { FaBus, FaCar } from "react-icons/fa";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
+import { NavLink } from "react-router";
 
 export default function MaintenanceCard() {
   const [selectMode, setSelectMode] = useState(false);
@@ -123,6 +124,11 @@ export default function MaintenanceCard() {
       <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
         Maintience
       </div>
+      <div className="MaintainceHistory  text-end mr-5">
+        <button className="bg-blue-600 p-3 text-white rounded-xl hover:bg-blue-700 transition">
+          <NavLink to={"/maintience/history"}>Maintaince History</NavLink>
+        </button>
+      </div>
       <FetchWrapper data={MaintainceData} isLoading={isMaintainceLoading}>
         <div className="p-6 max-w-6xl mx-auto">
           {MaintainceData?.map((MaintainceItem, index) => {
@@ -139,7 +145,7 @@ export default function MaintenanceCard() {
                   </span>
                 ) : (
                   <span className="flex items-center text-yellow-500 font-medium z-10 absolute -top-3 -left-4">
-                    <Clock className="w-4 h-4 mr-1" />
+                    <Clock className="w-8 h-6 mr-1" />
                   </span>
                 )}
 
@@ -293,7 +299,9 @@ export default function MaintenanceCard() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
-                        className={` text-white px-4 py-2 rounded-md hover:bg-blue-700 ${isSending?"bg-blue-300" :"bg-blue-600"}`}
+                        className={` text-white px-4 py-2 rounded-md hover:bg-blue-700 ${
+                          isSending ? "bg-blue-300" : "bg-blue-600"
+                        }`}
                         onClick={() => mutate()}
                         disabled={isSending}
                       >
