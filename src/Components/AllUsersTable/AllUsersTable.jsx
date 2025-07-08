@@ -9,7 +9,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import Popup from "../Popup/Popup";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -98,7 +98,7 @@ export default function AllUsersTable({
 
             {selectedRowIndex === index && (
               <div className="flex flex-col gap-1 p-2 rounded-md shadow-2xl text-primaryColor border border-primaryColor absolute right-0 -top-[38px] bg-white z-50 transition duration-500">
-                <Link
+                <NavLink
                   to={row.link}
                   className="p-[3px] px-1  border-stone-300 text-[16px] cursor-pointer flex gap-2 items-center transition duration-300 rounded-md hover:bg-primaryColor hover:text-white"
                 >
@@ -106,7 +106,7 @@ export default function AllUsersTable({
                     <FaInfoCircle />
                   </span>{" "}
                   Details
-                </Link>
+                </NavLink>
               </div>
             )}
           </div>
