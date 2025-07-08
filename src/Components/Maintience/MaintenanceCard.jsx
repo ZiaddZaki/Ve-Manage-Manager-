@@ -122,12 +122,15 @@ export default function MaintenanceCard() {
     <div>
       <ToastContainer />
       <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
-        Maintience
+        Maintenance
       </div>
       <div className="MaintainceHistory  text-end mr-5">
-        <button className="bg-blue-600 p-3 text-white rounded-xl hover:bg-blue-700 transition">
-          <NavLink to={"/maintience/history"}>Maintaince History</NavLink>
-        </button>
+      <NavLink
+        to={"/maintience/history"}
+        className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold ml-auto hover:bg-primaryColor hover:text-white "
+        >
+          Maintenance History
+      </NavLink>        
       </div>
       <FetchWrapper data={MaintainceData} isLoading={isMaintainceLoading}>
         <div className="p-6 max-w-6xl mx-auto">

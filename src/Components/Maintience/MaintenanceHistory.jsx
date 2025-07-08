@@ -38,7 +38,7 @@ const MaintenanceHistory = () => {
   return (
     <>
       <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
-        Maintience History
+          Maintenance History
       </div>
       <div className="p-6 grid lg:grid-cols-2 gap-7 md:w-[95%] mx-auto">
         <FetchWrapper data={data} isLoading={isLoading}>

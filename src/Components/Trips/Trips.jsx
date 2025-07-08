@@ -3,7 +3,7 @@ import AllUsersTable from "../AllUsersTable/AllUsersTable";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Trips = () => {
   async function getTips() {
@@ -46,12 +46,12 @@ const Trips = () => {
       <div className="text-center mb-7 w-full py-2 bg-stone-200 text-stone-700 border border-stone-300 rounded-md shadow-sm font-semibold text-xl">
         Trips
       </div>
-       <Link
-        to={"/trip/add"}
+       <NavLink
+        to={"/trips/add"}
         className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold"
         >
         + Assign Trip
-      </Link>
+      </NavLink>
       <FetchWrapper isLoading={isLoading} data={data}>
         <AllUsersTable
           titles={[
