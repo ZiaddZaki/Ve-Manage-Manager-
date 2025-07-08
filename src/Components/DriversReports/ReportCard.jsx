@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react";
+import { AlertCircle, AlertTriangle, Settings } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -62,12 +62,12 @@ const ReportCard = ({
           >
             {/* Header */}
             <div
-              className={`p-4 flex justify-between items-center ${
+              className={`p-2 flex justify-between items-center ${
                 item.seen ? "bg-gray-400" : "bg-red-700"
               } text-white`}
             >
               <div className="flex items-center gap-2">
-                <Settings className="w-5 h-5" />
+                <AlertTriangle className="w-5 h-5" />
                 <span className="font-semibold text-lg">Fault Report</span>
               </div>
               <span className="text-sm">{formatDateTime(item?.reportedAt)}</span>
