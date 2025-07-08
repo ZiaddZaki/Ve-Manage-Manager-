@@ -7,6 +7,29 @@ import Loader from "../Loader/Loader";
 import FetchWrapper from "../FetchWrapper";
 
 const DriversReports = () => {
+  const sampleReports = [
+    {
+      id: "123",
+      seen: false,
+      reportType: "Fault",
+      reportedAt: "2025-07-05T10:30:00Z",
+      driver: { displayName: "Ahmed Salah" },
+      vehicle: {
+        id: "v001",
+        palletNumber: "ABC-1234",
+      },
+      faultType: "Engine",
+      faultDetails: "Overheating detected by driver",
+      status: "Pending",
+      cost: 0,
+      faultAddress: "Cairo, Nasr City",
+      aiDetection: {
+        issueName: "Engine Overheat",
+        level: "High",
+      },
+    },
+  ];
+
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("All");
 
@@ -160,10 +183,10 @@ const DriversReports = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 my-5 mx-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-5 mx-5">
             <FetchWrapper isLoading={isLoading} data={filteredData}>
               <ReportCard
-                data={filteredData}
+                data={sampleReports}
                 isLoading={isLoading}
                 formatDateTime={formatDateTime}
                 markAsSeenMutation={markAsSeenMutation}

@@ -60,10 +60,10 @@ export default function Vehicles() {
         <FetchWrapper isLoading={isLoading} data={data}>
           <AllUsersTable
             keyOfQuery={"vehicles"}
-            baseUrl="https://veemanage.runasp.net/api/Vehicle"
+            baseUrl="https://veemanage.runasp.net/api/Vehicle/"
             titles={["ID", "Model", "Palet Number", "Joind Year", "Category"]}
             rows={data?.map((item, index) => ({
-              link: `/VehiclesProfile/${item.id}`,
+              link: `/vehicles/VehiclesProfile/${item.id}`,
               id: item.id,
               values: [
                 index + 1,

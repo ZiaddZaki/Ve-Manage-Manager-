@@ -1,6 +1,9 @@
+import React from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -9,30 +12,82 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const lineData = [
-  { date: "1 Sep", Envelope: 1000, Pen: 2400, Notebooks: 2400 },
-  { date: "5 Sep", Envelope: 3000, Pen: 1398, Notebooks: 2210 },
-  { date: "10 Sep", Envelope: 2000, Pen: 9800, Notebooks: 2290 },
-  { date: "15 Sep", Envelope: 2780, Pen: 3908, Notebooks: 2000 },
-  { date: "20 Sep", Envelope: 1890, Pen: 4800, Notebooks: 2181 },
-  { date: "25 Sep", Envelope: 2390, Pen: 3800, Notebooks: 2500 },
-  { date: "30 Sep", Envelope: 3490, Pen: 4300, Notebooks: 2100 },
-];
+async function fetchData(api) {
+  try {
+    const response = await axios.get(api, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return 0;
+  }
+}
 
-export default function SalesLineChart() {
+export default function VehicleStatusBarChart( ) {
+  const { data: VehicleAvailable, isLoading: isAvailableLoading } = useQuery({
+    queryKey: ["Vehicle-Available"],
+    queryFn: () =>
+      fetchData(
+        "https://veemanage.runasp.net/api/Dashboard/Total-Vehicle-Available"
+      ),
+  });
+
+  const { data: VehicleUnderMaintencance, isLoading: isUnderLoading } = useQuery({
+    queryKey: ["Vehicle-UnderMaintencance"],
+    queryFn: () =>
+      fetchData(
+        "https://veemanage.runasp.net/api/Dashboard/Total-Vehicle-UnderMaintencance"
+      ),
+  });
+
+  const { data: TotalVehicles, isLoading: isTotalLoading } = useQuery({
+    queryKey: ["Vehicles"],
+    queryFn: () =>
+      fetchData("https://veemanage.runasp.net/api/Dashboard/Total-Vehicle"),
+  });
+
+  if (isAvailableLoading || isUnderLoading || isTotalLoading) {
+    return <div className="text-center text-primary fs-5">Loading...</div>;
+  }
+
+  const chartData = [
+    {
+      name: "Today",
+      Total: TotalVehicles || 0,
+      Available: VehicleAvailable || 0,
+      UnderMaintenance: VehicleUnderMaintencance || 0,
+    },
+  ];
+
   return (
     <div className="w-full h-[300px]">
       <ResponsiveContainer width="95%" height="100%">
-        <LineChart data={lineData}>
+        <BarChart data={chartData} barGap={30} >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
+          <XAxis dataKey="name" />
+          <YAxis
+            tick={{ fontSize: 12 }}
+            tickFormatter={(value) => `${value}`}
+            label={{
+              value: "Total Vehicles",
+              angle: -90,
+              position: "insideLeft",
+              offset: -5,
+              fontSize: 14,
+            }}
+          />
+          <Tooltip
+            formatter={(value, name) => [`${value} Vehicle`, name]}
+            labelFormatter={() => "Today"}
+          />
           <Legend />
-          <Line type="monotone" dataKey="Envelope" stroke="#8884d8" />
-          <Line type="monotone" dataKey="Pen" stroke="#82ca9d" />
-          <Line type="monotone" dataKey="Notebooks" stroke="#ffc658" />
-        </LineChart>
+          <Bar dataKey="Total" fill="#8884d8" name="All" />
+          <Bar dataKey="Available" fill="#82ca9d" name="Available" />
+          <Bar dataKey="UnderMaintenance" fill="#ffc658" name="Under Maintenance" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

@@ -1,9 +1,8 @@
-import { Settings, Check } from "lucide-react";
-import Loader from "../Loader/Loader";
+import { AlertCircle, AlertTriangle, Settings } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { set } from "lodash";
+import { FaAdjust, FaCircle, FaSearch, FaTools } from "react-icons/fa";
 
 const ReportCard = ({
   data,
@@ -16,10 +15,7 @@ const ReportCard = ({
   const [selectedMechanic, setSelectedMechanic] = useState("");
   const [description, setDescription] = useState("");
   const [vehicleId, setVehicleId] = useState("");
-
-  console.log(description);
-  console.log(selectedMechanic);
-  console.log(vehicleId);
+  const [shownActions, setShownActions] = useState({}); // { [id]: true/false }
 
   async function fetchMechanics() {
     try {
@@ -38,204 +34,190 @@ const ReportCard = ({
     }
   }
 
-  const { data: mechanics = [], isLoading: isMechanicsLoading } = useQuery({
+  const { data: mechanics = [] } = useQuery({
     queryKey: ["mechanics"],
     queryFn: fetchMechanics,
   });
 
-  if (isLoading)
-    return (
-      <div className="text-center">
-        <Loader />
-      </div>
-    );
-
   return (
     <>
       {data?.map((item, index) => {
-        const isTrip = item?.reportType === "Trip";
+        const reportDetails = [
+          { title: "Driver Name", value: item?.driver?.displayName || "N/A" },
+          {
+            title: "Plate Number",
+            value: item?.vehicle?.palletNumber || "N/A",
+          },
+          { title: "Issue Type", value: item?.faultType || "N/A" },
+          { title: "Problem", value: item?.faultDetails || "N/A" },
+          { title: "Status", value: item?.status || "N/A" },
+          { title: "Cost", value: `${item?.cost || 0}$` },
+          { title: "Location", value: item?.faultAddress || "N/A" },
+        ];
 
-        const reportDetails = isTrip
-          ? [
-              {
-                title: "Driver Name",
-                value: item?.driver?.displayName || "N/A",
-              },
-              {
-                title: "Car Plate Number",
-                value: item?.vehicle?.palletNumber || "N/A",
-              },
-              {
-                title: "Vehicle Name (Model)",
-                value: item?.vehicle?.vehicleModelDto?.brand?.name || "N/A",
-              },
-              {
-                title: "Vehicle Category",
-                value: item?.vehicle?.vehicleModelDto?.category?.name || "N/A",
-              },
-              {
-                title: "Fuel Efficiency",
-                value: item?.vehicle?.vehicleModelDto?.fuelEfficiency || "N/A",
-              },
-              { title: "Trip Destination", value: item?.destination || "N/A" },
-              { title: "Fuel Cost", value: `${item?.fuelCost || 0}$` },
-            ]
-          : [
-              {
-                title: "Driver Name",
-                value: item?.driver?.displayName || "N/A",
-              },
-              {
-                title: "Car Plate Number",
-                value: item?.vehicle?.palletNumber || "N/A",
-              },
-              { title: "Issue Type", value: item?.faultType || "N/A" },
-              {
-                title: "Problem Description",
-                value: item?.faultDetails || "N/A",
-              },
-              { title: "Status", value: item?.status || "N/A" },
-              { title: "Cost", value: `${item?.cost || 0}$` },
-              { title: "Location", value: item?.faultAddress || "N/A" },
-            ];
+        const isCardOpen = openCardId === item.id;
+        const actionsVisible = shownActions[item.id] !== false;
 
         return (
-          <div
-            key={index}
-            className="bg-[#FFFFFF] w-[95%] lg:ml-4 mb-4 rounded-md shadow"
-          >
+          <>
             <div
-              className={`${
-                item.seen
-                  ? "bg-stone-400"
-                  : isTrip
-                  ? "bg-[#4CAF50]"
-                  : "bg-[#FA2E2E]"
-              } rounded-tr-md rounded-tl-md`}
+              key={index}
+              className="rounded-2xl border w-[95%] shadow-lg overflow-hidden bg-white transition duration-300 hover:shadow-xl mb-5
+              "
             >
-              <div className="flex justify-between items-center p-2">
-                <div className="flex items-center">
-                  {isTrip ? (
-                    <Check className="w-6 h-6 text-white" />
-                  ) : (
-                    <Settings className="w-6 h-6 text-white" />
-                  )}
-                  <span className="text-white font-medium text-lg ml-2">
-                    {isTrip ? "Trip Completed" : "Fault Reported"}
-                  </span>
+              {/* Header */}
+              <div
+                className={`p-2 flex justify-between items-center ${
+                  item.seen ? "bg-gray-400" : "bg-red-500"
+                } text-white`}
+              >
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5" />
+                  <span className="font-semibold text-lg">Fault Report</span>
                 </div>
-                <span className="text-white font-medium mr-2 break-words">
+                <span className="text-sm">
                   {formatDateTime(item?.reportedAt)}
                 </span>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4 p-4 pb-8">
-              {reportDetails.map((detail, i) => (
-                <div
-                  key={i}
-                  className={`bg-[#E8E8E8] rounded-xl border-l-4 ${
-                    isTrip ? "border-[#4880FF]" : "border-[#FA2E2E]"
-                  } py-1 px-2`}
-                >
-                  <span className="block px-4 pb-1 font-semibold">
-                    {detail.title}
-                  </span>
-                  <span className="block px-4 pb-3 break-words">
-                    {detail.value}
-                  </span>
+              {/* Details */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
+                {reportDetails.map((detail, i) => (
+                  <div key={i}>
+                    <div className="text-gray-500 text-sm">{detail.title}</div>
+                    <div className="font-semibold text-gray-800">
+                      {detail.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* AI Detection Section */}
+              {item?.aiDetection && (
+                <div className="relative my-5 mx-5 p-4 border-l-[6px] rounded-xl shadow-md border-blue-500 bg-gradient-to-br from-blue-50 to-white">
+                  <div className="absolute -top-3 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow">
+                    AI DETECTION
+                  </div>
+                  <div className="mt-3 text-base text-blue-1000 font-bold flex items-center gap-2">
+                    <FaTools size={20} /> Issue Detected:
+                    <span className="text-black">
+                      {item.aiDetection.issueName}
+                    </span>
+                  </div>
+                  <div className="text-sm mt-5 flex items-center gap-2">
+                    <span className="font-semibold text-gray-700 flex items-center gap-2">
+                      <FaCircle size={20} className="text-red-300" /> Emergency
+                      Level:
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-xs font-bold ${
+                        item.aiDetection.level === "High"
+                          ? "bg-red-600"
+                          : item.aiDetection.level === "Medium"
+                          ? "bg-orange-500"
+                          : "bg-green-600"
+                      }`}
+                    >
+                      {item.aiDetection.level}
+                    </span>
+                  </div>
                 </div>
-              ))}
-            </div>
+              )}
 
-            <div className="bg-white">
-              <hr className="border-t-2 border-gray-400 mb-2" />
-              <div className="flex flex-col gap-2 px-2 pb-4">
-                <div className="flex justify-end gap-2">
-                  {item.seen === false && (
+              {/* Action Buttons */}
+              {actionsVisible && (
+                <div className="flex justify-end items-center gap-3 p-4 border-t">
+                  {!item.seen && (
                     <button
                       onClick={() => {
-                        const url =
-                          item.reportType === "Fault"
-                            ? `https://veemanage.runasp.net/api/Trip/Report/Fault/Report/Fault/${item.id}/mark-as-seen`
-                            : `https://veemanage.runasp.net/api/TripReport/Report/Regular/${item.id}/mark-as-seen`;
+                        const url = `https://veemanage.runasp.net/api/Trip/Report/Fault/Report/Fault/${item.id}/mark-as-seen`;
                         markAsSeenMutation(url);
                       }}
-                      className="bg-[#3567DB] text-white px-5 py-2 rounded-xl my-2"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm"
                     >
                       Mark as Seen
                     </button>
                   )}
 
-                  {!isTrip && openCardId !== item.id && (
+                  <button
+                    onClick={() => {
+                      setOpenCardId(item.id);
+                      setVehicleId(item?.vehicle?.id);
+                      setShownActions((prev) => ({
+                        ...prev,
+                        [item.id]: false,
+                      }));
+                    }}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm"
+                  >
+                    Send to Mechanic
+                  </button>
+                </div>
+              )}
+
+              {/* Mechanic Form */}
+              {isCardOpen && (
+                <div className="bg-gray-50 p-5 border-t space-y-4">
+                  <textarea
+                    className="w-full border rounded-md p-2"
+                    placeholder="Describe the issue..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <select
+                    value={selectedMechanic}
+                    onChange={(e) => setSelectedMechanic(e.target.value)}
+                    className="border px-3 py-2 rounded-md w-full"
+                  >
+                    <option value="">Select Mechanic</option>
+                    {mechanics.map((mech) => (
+                      <option key={mech.id} value={mech.id}>
+                        {mech.displayName}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="flex justify-end gap-2">
                     <button
                       onClick={() => {
-                        setOpenCardId(item?.id);
-                        setVehicleId(item?.vehicle?.id);
-                      }}
-                      className="bg-[#FF9800] text-white px-5 py-2 rounded-xl my-2"
-                    >
-                      Send To Mechanic
-                    </button>
-                  )}
-                </div>
+                        sendToMechanicMutation({
+                          mechanicId: selectedMechanic,
+                          vehicleId,
+                          description,
+                        });
 
-                {openCardId === item.id && !isTrip && (
-                  <div className="flex flex-col gap-2 w-full px-2">
-                    <textarea
-                      className="border p-2 rounded-md"
-                      placeholder="Enter Description"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                    <div className="flex justify-between items-center">
-                      <select
-                        value={selectedMechanic}
-                        onChange={(e) => setSelectedMechanic(e.target.value)}
-                        className="border px-3 py-2 rounded-md"
-                      >
-                        <option value="">Select Mechanic</option>
-                        {mechanics.map((mechanic) => (
-                          <option key={mechanic.id} value={mechanic.id}>
-                            {mechanic.displayName}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="flex gap-2 justify-end">
-                        <button
-                          onClick={() => {
-                            sendToMechanicMutation({
-                              mechanicId: selectedMechanic,
-                              vehicleId: vehicleId,
-                              description: description,
-                            });
-                            setOpenCardId(null);
-                            setDescription("");
-                            setSelectedMechanic("");
-                            setVehicleId("");
-                          }}
-                          className="bg-green-600 text-white px-4 py-2 rounded-md"
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          onClick={() => {
-                            setOpenCardId(null);
-                            setDescription("");
-                            setSelectedMechanic("");
-                            setVehicleId("");
-                          }}
-                          className="bg-gray-400 text-white px-4 py-2 rounded-md"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
+                        const url = `https://veemanage.runasp.net/api/Trip/Report/Fault/Report/Fault/${item.id}/mark-as-seen`;
+                        markAsSeenMutation(url);
+
+                        setOpenCardId(null);
+                        setSelectedMechanic("");
+                        setDescription("");
+                        setVehicleId("");
+                      }}
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      onClick={() => {
+                        setOpenCardId(null);
+                        setSelectedMechanic("");
+                        setDescription("");
+                        setVehicleId("");
+                        setShownActions((prev) => ({
+                          ...prev,
+                          [item.id]: true,
+                        }));
+                      }}
+                      className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Cancel
+                    </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </div>
+          </>
         );
       })}
     </>
