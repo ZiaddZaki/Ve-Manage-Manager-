@@ -140,7 +140,7 @@ const AssignTrip = () => {
       console.log(res?.data);
     } catch (error) {
       console.log(error);
-      
+
       const errorMessage =
         error?.response?.data?.message || "Something went wrong";
       setError(errorMessage);
@@ -322,7 +322,6 @@ const AssignTrip = () => {
           </div>
 
           {/* isDaily Checkbox */}
-      
 
           {/* Destination */}
           <div className="flex flex-col items-start p-4 ml-6">
@@ -341,8 +340,6 @@ const AssignTrip = () => {
               </span>
             )}
           </div>
-          
-          
 
           {/* Details */}
           <div className="col-span-2 flex flex-col items-start p-4 ml-6">
@@ -361,23 +358,23 @@ const AssignTrip = () => {
             )}
           </div>
         </div>
-            <div className="flex items-center p-4 ml-12 ">
-            <label className="flex items-center space-x-2 bg-white w-[30%] p-4 rounded-lg border border-blue-500 ">
-              <input
-                type="checkbox"
-                {...register("isDaily")}
-                className="h-5 w-5 text-blue-600 border-stone-400 rounded focus:ring-2 focus:ring-blue-600"
-              />
-              <span className="text-lg font-medium font-Nunito text-[#666666]">
-                Daily Trip
-              </span>
-            </label>
-            {errors.isDaily && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.isDaily.message}
-              </span>
-            )}
-          </div>
+        <div className="flex items-center p-4 ml-12 ">
+          <label className="flex items-center space-x-2 bg-white w-[30%] p-4 rounded-lg border border-blue-500 ">
+            <input
+              type="checkbox"
+              {...register("isDaily")}
+              className="h-5 w-5 text-blue-600 border-stone-400 rounded focus:ring-2 focus:ring-blue-600"
+            />
+            <span className="text-lg font-medium font-Nunito text-[#666666]">
+              Daily Trip
+            </span>
+          </label>
+          {errors.isDaily && (
+            <span className="text-red-500 text-sm mt-1">
+              {errors.isDaily.message}
+            </span>
+          )}
+        </div>
 
         {/* Submit Button */}
         <div className="col-span-2 flex justify-center p-4">
