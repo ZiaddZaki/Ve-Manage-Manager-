@@ -10,7 +10,7 @@ import {
   Clock,
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
-import { FaBus, FaCar } from "react-icons/fa";
+import { FaBus, FaCar, FaTools } from "react-icons/fa";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
@@ -23,6 +23,7 @@ export default function MaintenanceCard() {
   const [cardIndex, setCardIndex] = useState(null);
   const [selectedVehicleId, setSelectedVehicleId] = useState("");
   const [description, setDescription] = useState("");
+  const [maintenanceCategory, setMaintenanceCategory] = useState(1);
 
   function handleToggle(index) {
     if (index == cardIndex) {
@@ -66,7 +67,7 @@ export default function MaintenanceCard() {
         {
           mechanicId: selectedMechanic,
           vehicleId: selectedVehicleId,
-          maintenanceCategory: 1,
+          maintenanceCategory: maintenanceCategory,
           description: description,
           parts: selectedParts,
         },
@@ -223,6 +224,22 @@ export default function MaintenanceCard() {
                       : "max-h-0 opacity-0 overflow-hidden"
                   }`}
                 >
+                {MaintainceItem?.needMaintenancePrediction && (
+                   <div className="relative my-5 mx-5 p-4 border-l-[6px] rounded-xl shadow-md border-blue-500 bg-gradient-to-br from-blue-50 to-white">
+                                  <div className="absolute -top-3 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow">
+                                    AI DETECTION
+                                  </div>
+                                  <div className="mt-3 text-base text-blue-900 font-bold flex items-center gap-2">
+                                    <FaTools size={20}/> 
+                                    <span className="text-black"> Ai Detected that this vehicle needs maintenance</span>
+                                  </div> 
+                                </div>
+                              
+                )}
+                  {MaintainceItem?.needMaintenancePrediction && MaintainceItem?.dueParts?.length==0 &&(
+                    setMaintenanceCategory(2)
+                                  
+                                )}
                   {MaintainceItem?.dueParts.map((part, idx) => {
                     const nextDate = new Date(
                       part.nextChangeDate

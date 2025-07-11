@@ -1,4 +1,9 @@
-import { AlertCircle, AlertTriangle, Settings } from "lucide-react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  CheckCircle,
+  Settings,
+} from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -10,12 +15,13 @@ const ReportCard = ({
   formatDateTime,
   markAsSeenMutation,
   sendToMechanicMutation,
+  setFaultReportId,
 }) => {
   const [openCardId, setOpenCardId] = useState(null);
   const [selectedMechanic, setSelectedMechanic] = useState("");
   const [description, setDescription] = useState("");
   const [vehicleId, setVehicleId] = useState("");
-  const [shownActions, setShownActions] = useState({}); // { [id]: true/false }
+  const [shownActions, setShownActions] = useState({});
 
   async function fetchMechanics() {
     try {
@@ -41,39 +47,53 @@ const ReportCard = ({
 
   return (
     <>
-      {data?.map((item, index) => {
-        const reportDetails = [
-          { title: "Driver Name", value: item?.driver?.displayName || "N/A" },
-          {
-            title: "Plate Number",
-            value: item?.vehicle?.palletNumber || "N/A",
-          },
-          { title: "Issue Type", value: item?.faultType || "N/A" },
-          { title: "Problem", value: item?.faultDetails || "N/A" },
-          { title: "Status", value: item?.status || "N/A" },
-          { title: "Cost", value: `${item?.cost || 0}$` },
-          { title: "Location", value: item?.faultAddress || "N/A" },
-        ];
+      {data
+        ?.filter(
+          (item) => item.seen === false || item.sentToMechanics === false
+        )
+        .map((item, index) => {
+          const reportDetails = [
+            { title: "Driver Name", value: item?.driver?.displayName || "N/A" },
+            {
+              title: "Plate Number",
+              value: item?.vehicle?.palletNumber || "N/A",
+            },
+            { title: "Issue Type", value: item?.faultType || "N/A" },
+            { title: "Problem", value: item?.faultDetails || "N/A" },
+            { title: "Status", value: item?.status || "N/A" },
+            { title: "Fuel Cost", value: `${item?.cost || 0} EGP` },
+            { title: "Location", value: item?.faultAddress || "N/A" },
+          ];
 
-        const isCardOpen = openCardId === item.id;
-        const actionsVisible = shownActions[item.id] !== false;
+          const isCardOpen = openCardId === item.id;
+          const actionsVisible = shownActions[item.id] !== false;
 
-        return (
-          <>
+          return (
             <div
               key={index}
-              className="rounded-2xl border w-[95%] shadow-lg overflow-hidden bg-white transition duration-300 hover:shadow-xl mb-5
-              "
+              className="rounded-2xl border shadow-lg overflow-hidden bg-white transition duration-300 hover:shadow-xl mb-5 max-h-fit"
             >
               {/* Header */}
               <div
                 className={`p-2 flex justify-between items-center ${
-                  item.seen ? "bg-gray-400" : "bg-red-500"
+                  item.seen
+                    ? "bg-gray-400"
+                    : item.reportType === "Fault"
+                    ? "bg-red-500"
+                    : "bg-green-500"
                 } text-white`}
               >
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  <span className="font-semibold text-lg">Fault Report</span>
+                  {item.reportType === "Fault" ? (
+                    <AlertTriangle className="w-5 h-5" />
+                  ) : (
+                    <CheckCircle className="w-5 h-5" />
+                  )}
+                  <span className="font-semibold text-lg">
+                    {item.reportType === "Fault"
+                      ? "Fault Report"
+                      : "Trip Completed"}
+                  </span>
                 </div>
                 <span className="text-sm">
                   {formatDateTime(item?.reportedAt)}
@@ -93,16 +113,14 @@ const ReportCard = ({
               </div>
 
               {/* AI Detection Section */}
-              {item?.aiDetection && (
+              {item?.faultType && item?.reportType === "Fault" && (
                 <div className="relative my-5 mx-5 p-4 border-l-[6px] rounded-xl shadow-md border-blue-500 bg-gradient-to-br from-blue-50 to-white">
                   <div className="absolute -top-3 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow">
                     AI DETECTION
                   </div>
-                  <div className="mt-3 text-base text-blue-1000 font-bold flex items-center gap-2">
+                  <div className="mt-3 text-base text-blue-900 font-bold flex items-center gap-2">
                     <FaTools size={20} /> Issue Detected:
-                    <span className="text-black">
-                      {item.aiDetection.issueName}
-                    </span>
+                    <span className="text-black">{item.faultType}</span>
                   </div>
                   <div className="text-sm mt-5 flex items-center gap-2">
                     <span className="font-semibold text-gray-700 flex items-center gap-2">
@@ -111,14 +129,14 @@ const ReportCard = ({
                     </span>
                     <span
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-xs font-bold ${
-                        item.aiDetection.level === "High"
+                        item.priority === "High"
                           ? "bg-red-600"
-                          : item.aiDetection.level === "Medium"
+                          : item.priority === "Medium"
                           ? "bg-orange-500"
                           : "bg-green-600"
                       }`}
                     >
-                      {item.aiDetection.level}
+                      {item.priority}
                     </span>
                   </div>
                 </div>
@@ -127,7 +145,7 @@ const ReportCard = ({
               {/* Action Buttons */}
               {actionsVisible && (
                 <div className="flex justify-end items-center gap-3 p-4 border-t">
-                  {!item.seen && (
+                  {item.seen === false && (
                     <button
                       onClick={() => {
                         const url = `https://veemanage.runasp.net/api/Trip/Report/Fault/Report/Fault/${item.id}/mark-as-seen`;
@@ -138,20 +156,22 @@ const ReportCard = ({
                       Mark as Seen
                     </button>
                   )}
-
-                  <button
-                    onClick={() => {
-                      setOpenCardId(item.id);
-                      setVehicleId(item?.vehicle?.id);
-                      setShownActions((prev) => ({
-                        ...prev,
-                        [item.id]: false,
-                      }));
-                    }}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm"
-                  >
-                    Send to Mechanic
-                  </button>
+                  {item.reportType === "Fault" && (
+                    <button
+                      onClick={() => {
+                        setOpenCardId(item.id);
+                        setVehicleId(item?.vehicle?.id);
+                        setFaultReportId(item.id);
+                        setShownActions((prev) => ({
+                          ...prev,
+                          [item.id]: false,
+                        }));
+                      }}
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm"
+                    >
+                      Send to Mechanic
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -214,12 +234,15 @@ const ReportCard = ({
                       Cancel
                     </button>
                   </div>
+
+                  {item?.seen === true && (
+                    <p className="my-2 text-gray-500"> Report has been seen</p>
+                  )}
                 </div>
               )}
             </div>
-          </>
-        );
-      })}
+          );
+        })}
     </>
   );
 };

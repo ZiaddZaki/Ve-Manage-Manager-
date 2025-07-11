@@ -16,7 +16,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import VehiclesProfile from "../Vehicles/VehiclesProfile";
 import DriverProfile from "../Drivers/DriverProfile";
 import MechanicsProfile from "../Mechanics/MechanicsProfile";
-;
 import Trips from "../Trips/Trips";
 import DriversReports from "../DriversReports/DriversReports";
 import MechanicsReports from "../MechanicsReports/MechanicsReports";
@@ -24,6 +23,8 @@ import TripDetails from "../Trips/TripDetails";
 import AssignTrip from "../Trips/AssignTrip";
 import MaintenanceCard from "../Maintience/MaintenanceCard";
 import MaintenanceHistory from "../Maintience/MaintenanceHistory";
+import TripsHistory from "../DriversReports/TripsHistory";
+import MechanicHistory from "../MechanicsReports/MechanicHistory";
 
 const Router = createBrowserRouter([
   {
@@ -41,7 +42,10 @@ const Router = createBrowserRouter([
           { path: "/vehicles", element: <Vehicles /> },
           { path: "/vehicles/model", element: <Model /> },
           { path: "/vehicles/categories", element: <Category /> },
-          { path: "vehicles/VehiclesProfile/:id", element: <VehiclesProfile /> },
+          {
+            path: "vehicles/VehiclesProfile/:id",
+            element: <VehiclesProfile />,
+          },
           { path: "/driverProfile/:id", element: <DriverProfile /> },
           { path: "/mechanicProfile/:id", element: <MechanicsProfile /> },
           { path: "/trips", element: <Trips /> },
@@ -51,8 +55,8 @@ const Router = createBrowserRouter([
           { path: "/reports/mechanics", element: <MechanicsReports /> },
           { path: "/maintience", element: <MaintenanceCard /> },
           { path: "/maintience/history", element: <MaintenanceHistory /> },
-
-      
+          { path: "/reports/drivers/history", element: <TripsHistory /> },
+          { path: "/reports/mechanics/history", element: <MechanicHistory /> },
         ],
       },
     ],
