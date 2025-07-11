@@ -7,11 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
 
 export default function Vehicles() {
+   const[PageSize,setPageSize]=useState(12)
+  const[PageIndex,setPageIndex]=useState(1)
   const { data, isLoading } = useQuery({
-    queryKey: ["vehicles"],
+    queryKey: ["vehicles", PageSize, PageIndex],
     queryFn: getVehicles,
   });
-
+data 
   async function getVehicles() {
     try {
       const response = await axios.get(
@@ -20,6 +22,10 @@ export default function Vehicles() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+           params: {
+          PageSize: PageSize,
+          PageIndex: PageIndex,
+        },
         }
       );
       return response?.data;
@@ -60,10 +66,10 @@ export default function Vehicles() {
         <FetchWrapper isLoading={isLoading} data={data}>
           <AllUsersTable
             keyOfQuery={"vehicles"}
-            baseUrl="https://veemanage.runasp.net/api/Vehicle"
+            baseUrl="https://veemanage.runasp.net/api/Vehicle/"
             titles={["ID", "Model", "Palet Number", "Joind Year", "Category"]}
             rows={data?.map((item, index) => ({
-              link: `/VehiclesProfile/${item.id}`,
+              link: `/vehicles/VehiclesProfile/${item.id}`,
               id: item.id,
               values: [
                 index + 1,
@@ -77,6 +83,12 @@ export default function Vehicles() {
           />
         </FetchWrapper>
           {/* )} */}
+          
+      </div>
+         <div className="pagination  flex justify-center gap-10 items-center mt-5 mb-5">
+        <button className="bg-primaryColor text-white p-2 rounded-md w-[140px] cursor-pointer hover:bg-blue-800" onClick={() => setPageIndex(PageIndex - 1)} disabled={PageIndex === 1}>Previous</button>
+        <span>{PageIndex}</span>
+        <button className="bg-primaryColor text-white p-2 rounded-md w-[140px] cursor-pointer hover:bg-blue-800" onClick={() => setPageIndex(PageIndex + 1)} disabled={data?.length < PageSize}>Next</button>
       </div>
     </>
   );

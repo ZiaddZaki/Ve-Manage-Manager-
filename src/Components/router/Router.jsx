@@ -16,25 +16,15 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import VehiclesProfile from "../Vehicles/VehiclesProfile";
 import DriverProfile from "../Drivers/DriverProfile";
 import MechanicsProfile from "../Mechanics/MechanicsProfile";
-// import DriverForm from "../Forms/DriverForm";
-// import Manager from "../../components/Manager/Manager";
-// import ManagerAdd from "../Forms/MangerAdd";
-// import MecghanicAdd from "../Forms/MechanicAdd";
-// import VehiclesAdd from "../Vehicles/VehiclesAdd";
-// import Model from "../Vehicles/Model";
-// import Category from "../Vehicles/Category";
-// import Profile from "../Profile/Profile";
 import Trips from "../Trips/Trips";
 import DriversReports from "../DriversReports/DriversReports";
 import MechanicsReports from "../MechanicsReports/MechanicsReports";
 import TripDetails from "../Trips/TripDetails";
 import AssignTrip from "../Trips/AssignTrip";
 import MaintenanceCard from "../Maintience/MaintenanceCard";
-// import ManagersProfile from "../Manager/ManagersProfile";
-// import VehiclesProfile from "../Vehicles/VehiclesProfile";
-// import DriverProfile from "../Drivers/DriverProfile";
-// import MechanicsProfile from "../Mechanics/MechanicsProfile";
-// import CategoryAdd from "../Forms/CategoryAdd";
+import MaintenanceHistory from "../Maintience/MaintenanceHistory";
+import TripsHistory from "../DriversReports/TripsHistory";
+import MechanicHistory from "../MechanicsReports/MechanicHistory";
 
 const Router = createBrowserRouter([
   {
@@ -52,30 +42,21 @@ const Router = createBrowserRouter([
           { path: "/vehicles", element: <Vehicles /> },
           { path: "/vehicles/model", element: <Model /> },
           { path: "/vehicles/categories", element: <Category /> },
-          { path: "/VehiclesProfile/:id", element: <VehiclesProfile /> },
+          {
+            path: "vehicles/VehiclesProfile/:id",
+            element: <VehiclesProfile />,
+          },
           { path: "/driverProfile/:id", element: <DriverProfile /> },
           { path: "/mechanicProfile/:id", element: <MechanicsProfile /> },
-          // { path: "/users/drivers/add", element: <DriverForm /> },
-          // { path: "/users/mechanics/add", element: <MecghanicAdd /> },
-          // { path: "/users/managers", element: <Manager /> },
-          // { path: "/users/managers/add", element: <ManagerAdd /> },
           { path: "/trips", element: <Trips /> },
           { path: "/trips/:id", element: <TripDetails /> },
-          { path: "/trip/add", element: <AssignTrip /> },
-
+          { path: "/trips/add", element: <AssignTrip /> },
           { path: "/reports/drivers", element: <DriversReports /> },
           { path: "/reports/mechanics", element: <MechanicsReports /> },
-                    { path: "/maintience", element: <MaintenanceCard /> },
-
-
-          // { path: "/vehicles/add", element: <VehiclesAdd /> },
-          // { path: "/vehicles/model", element: <Model /> },
-          // { path: "/vehicles/categories", element: <Category /> },
-          // { path: "/ManagerProfile/:id", element: <ManagersProfile /> },
-          // { path: "/VehiclesProfile/:id", element: <VehiclesProfile /> },
-          // { path: "/driverProfile/:id", element: <DriverProfile /> },
-          // { path: "/mechanicProfile/:id", element: <MechanicsProfile /> },
-          // { path: "/category/add", element: <CategoryAdd /> },
+          { path: "/maintience", element: <MaintenanceCard /> },
+          { path: "/maintience/history", element: <MaintenanceHistory /> },
+          { path: "/reports/drivers/history", element: <TripsHistory /> },
+          { path: "/reports/mechanics/history", element: <MechanicHistory /> },
         ],
       },
     ],

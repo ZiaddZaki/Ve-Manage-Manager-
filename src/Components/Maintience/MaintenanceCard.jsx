@@ -10,10 +10,11 @@ import {
   Clock,
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
-import { FaBus, FaCar } from "react-icons/fa";
+import { FaBus, FaCar, FaTools } from "react-icons/fa";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import FetchWrapper from "../FetchWrapper";
+import { NavLink } from "react-router";
 
 export default function MaintenanceCard() {
   const [selectMode, setSelectMode] = useState(false);
@@ -22,6 +23,7 @@ export default function MaintenanceCard() {
   const [cardIndex, setCardIndex] = useState(null);
   const [selectedVehicleId, setSelectedVehicleId] = useState("");
   const [description, setDescription] = useState("");
+  const [maintenanceCategory, setMaintenanceCategory] = useState(1);
 
   function handleToggle(index) {
     if (index == cardIndex) {
@@ -65,7 +67,7 @@ export default function MaintenanceCard() {
         {
           mechanicId: selectedMechanic,
           vehicleId: selectedVehicleId,
-          maintenanceCategory: 1,
+          maintenanceCategory: maintenanceCategory,
           description: description,
           parts: selectedParts,
         },
@@ -121,7 +123,15 @@ export default function MaintenanceCard() {
     <div>
       <ToastContainer />
       <div className="text-center mb-7 w-[100%] py-[0.5rem]  bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
-        Maintience
+        Maintenance
+      </div>
+      <div className="MaintainceHistory  text-end mr-5">
+      <NavLink
+        to={"/maintience/history"}
+        className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold ml-auto hover:bg-primaryColor hover:text-white "
+        >
+          Maintenance History
+      </NavLink>        
       </div>
       <FetchWrapper data={MaintainceData} isLoading={isMaintainceLoading}>
         <div className="p-6 max-w-6xl mx-auto">
@@ -139,7 +149,7 @@ export default function MaintenanceCard() {
                   </span>
                 ) : (
                   <span className="flex items-center text-yellow-500 font-medium z-10 absolute -top-3 -left-4">
-                    <Clock className="w-4 h-4 mr-1" />
+                    <Clock className="w-8 h-6 mr-1" />
                   </span>
                 )}
 
@@ -214,6 +224,22 @@ export default function MaintenanceCard() {
                       : "max-h-0 opacity-0 overflow-hidden"
                   }`}
                 >
+                {MaintainceItem?.needMaintenancePrediction && (
+                   <div className="relative my-5 mx-5 p-4 border-l-[6px] rounded-xl shadow-md border-blue-500 bg-gradient-to-br from-blue-50 to-white">
+                                  <div className="absolute -top-3 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow">
+                                    AI DETECTION
+                                  </div>
+                                  <div className="mt-3 text-base text-blue-900 font-bold flex items-center gap-2">
+                                    <FaTools size={20}/> 
+                                    <span className="text-black"> Ai Detected that this vehicle needs maintenance</span>
+                                  </div> 
+                                </div>
+                              
+                )}
+                  {MaintainceItem?.needMaintenancePrediction && MaintainceItem?.dueParts?.length==0 &&(
+                    setMaintenanceCategory(2)
+                                  
+                                )}
                   {MaintainceItem?.dueParts.map((part, idx) => {
                     const nextDate = new Date(
                       part.nextChangeDate
@@ -293,7 +319,9 @@ export default function MaintenanceCard() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
-                        className={` text-white px-4 py-2 rounded-md hover:bg-blue-700 ${isSending?"bg-blue-300" :"bg-blue-600"}`}
+                        className={` text-white px-4 py-2 rounded-md hover:bg-blue-700 ${
+                          isSending ? "bg-blue-300" : "bg-blue-600"
+                        }`}
                         onClick={() => mutate()}
                         disabled={isSending}
                       >
