@@ -124,7 +124,7 @@ const defaultCoordinates = {
           className="bg-blue-500 h-full rounded-xl relative"
           style={{ width: `${tripPercentage}%` }}
         >
-          <span className="text-blue-950 p-3 whitespace-nowrap w-[100%]">
+          <span className="text-blue-950 p-3 whitespace-nowrap w-[100%] absolute -top-[6px]">
             Trip Progress
           </span>
           <span className="absolute -top-8 px-1 right-0 rounded-lg bg-white border border-blue-500 whitespace-nowrap">

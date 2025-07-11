@@ -31,7 +31,7 @@ export default function FleetPieChart() {
   })
   const data = [
   { name: "Trip Completed", value:tripCompleted&&tripCompleted , color: "#3B82F6" },
-  { name: "Trip With Fault", value:tripWithFaults, color: "#F95f1f" },
+  { name: "Trip With Fault", value:tripWithFaults, color: "#F97f1f" },
 
 ];
   return (

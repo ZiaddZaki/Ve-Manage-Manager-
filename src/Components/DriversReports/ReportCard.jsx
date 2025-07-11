@@ -1,4 +1,9 @@
-import { AlertCircle, AlertTriangle, CheckCircle, Settings } from "lucide-react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  CheckCircle,
+  Settings,
+} from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -43,11 +48,16 @@ const ReportCard = ({
   return (
     <>
       {data
-        ?.filter((item) => item.seen === false || item.sentToMechanics === false)
+        ?.filter(
+          (item) => item.seen === false || item.sentToMechanics === false
+        )
         .map((item, index) => {
           const reportDetails = [
             { title: "Driver Name", value: item?.driver?.displayName || "N/A" },
-            { title: "Plate Number", value: item?.vehicle?.palletNumber || "N/A" },
+            {
+              title: "Plate Number",
+              value: item?.vehicle?.palletNumber || "N/A",
+            },
             { title: "Issue Type", value: item?.faultType || "N/A" },
             { title: "Problem", value: item?.faultDetails || "N/A" },
             { title: "Status", value: item?.status || "N/A" },
@@ -80,10 +90,14 @@ const ReportCard = ({
                     <CheckCircle className="w-5 h-5" />
                   )}
                   <span className="font-semibold text-lg">
-                    {item.reportType === "Fault" ? "Fault Report" : "Trip Completed"}
+                    {item.reportType === "Fault"
+                      ? "Fault Report"
+                      : "Trip Completed"}
                   </span>
                 </div>
-                <span className="text-sm">{formatDateTime(item?.reportedAt)}</span>
+                <span className="text-sm">
+                  {formatDateTime(item?.reportedAt)}
+                </span>
               </div>
 
               {/* Details */}
@@ -91,7 +105,9 @@ const ReportCard = ({
                 {reportDetails.map((detail, i) => (
                   <div key={i}>
                     <div className="text-gray-500 text-sm">{detail.title}</div>
-                    <div className="font-semibold text-gray-800">{detail.value}</div>
+                    <div className="font-semibold text-gray-800">
+                      {detail.value}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -108,7 +124,8 @@ const ReportCard = ({
                   </div>
                   <div className="text-sm mt-5 flex items-center gap-2">
                     <span className="font-semibold text-gray-700 flex items-center gap-2">
-                      <FaCircle size={20} className="text-red-300" /> Emergency Level:
+                      <FaCircle size={20} className="text-red-300" /> Emergency
+                      Level:
                     </span>
                     <span
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-xs font-bold ${
@@ -145,7 +162,10 @@ const ReportCard = ({
                         setOpenCardId(item.id);
                         setVehicleId(item?.vehicle?.id);
                         setFaultReportId(item.id);
-                        setShownActions((prev) => ({ ...prev, [item.id]: false }));
+                        setShownActions((prev) => ({
+                          ...prev,
+                          [item.id]: false,
+                        }));
                       }}
                       className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm"
                     >
@@ -204,7 +224,10 @@ const ReportCard = ({
                         setSelectedMechanic("");
                         setDescription("");
                         setVehicleId("");
-                        setShownActions((prev) => ({ ...prev, [item.id]: true }));
+                        setShownActions((prev) => ({
+                          ...prev,
+                          [item.id]: true,
+                        }));
                       }}
                       className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md"
                     >

@@ -68,7 +68,7 @@ const Sidebar = ({ isVisable, handleToggle }) => {
           <span>
             <MdOutlineDashboard className="text-[20px]" />
           </span>
-          <span className="text-[#FFFFFFB2] text-[16px]">Overview</span>
+          <span className="text-[#FFFFFFB2] text-[16px]">Dashboard</span>
         </NavLink>
         <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
           <div className="item flex flex-col mb-3 text-[1.1rem] rounded-md ">
