@@ -5,6 +5,8 @@ import ReportCard from "./ReportCard";
 import { ChevronDown } from "lucide-react";
 import Loader from "../Loader/Loader";
 import FetchWrapper from "../FetchWrapper";
+import { toast, ToastContainer } from "react-toastify";
+import { NavLink } from "react-router";
 
 const DriversReports = () => {
   const sampleReports = [
@@ -32,6 +34,7 @@ const DriversReports = () => {
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("All");
+  const[FaultReportId, setFaultReportId] = useState(null);
 
   async function fetchTrips() {
     //fetching completed trips
@@ -102,21 +105,26 @@ const DriversReports = () => {
   });
 
   async function sendToMechanic({ mechanicId, vehicleId, description }) {
-    try {
-      const res = await axios.post(
-        "https://veemanage.runasp.net/api/Maintenance/Request",
-        {
+   const data={
+         
           mechanicId,
           vehicleId,
           maintenanceCategory: 0,
           parts: [],
           description,
-        },
-        {
+          falutReportId: FaultReportId  
+        
+    }
+    console.log("data to be sent", data);
+
+    try {
+      const res = await axios.post(
+        "https://veemanage.runasp.net/api/Maintenance/Request",
+        data,{
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+          },}
+        
       );
       console.log("Sent to mechanic:", res);
       return res;
@@ -129,15 +137,21 @@ const DriversReports = () => {
     mutationFn: sendToMechanic,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["driversReports"] });
+      toast.success("Sent to mechanic!");
+    },
+    onError: () => {
+      toast.error("Error sending to mechanic!");
     },
   });
 
   return (
     <>
+    <ToastContainer/>
       <div>
         <div className="text-center mb-7 w-[100%] py-[0.5rem] bg-stone-200 text-stone-700 border border-stone-300   rounded-md shadow-sm font-semibold text-xl">
           Drivers Reports
         </div>
+        <div className="flex items-center justify-between">
         <div>
           <button
             onClick={() => setOpen(!open)}
@@ -180,17 +194,27 @@ const DriversReports = () => {
             </span>
           </div>
         </div>
+          <div className="MaintainceHistory  text-end mx-5">
+              <NavLink
+                to={"/trips/history"}
+                className="block  border border-primaryColor w-[180px] p-2 text-center rounded-lg text-primaryColor font-bold ml-auto hover:bg-primaryColor hover:text-white "
+                >
+                   History
+              </NavLink>        
+              </div>
+              </div>
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 my-5 mx-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 my-5 mx-5">
             <FetchWrapper isLoading={isLoading} data={filteredData}>
               <ReportCard
-  data={sampleReports}
+                data={filteredData}
                 isLoading={isLoading}
                 formatDateTime={formatDateTime}
                 markAsSeenMutation={markAsSeenMutation}
                 sendToMechanicMutation={sendToMechanicMutation}
+                setFaultReportId={setFaultReportId}
               />
             </FetchWrapper>
           </div>

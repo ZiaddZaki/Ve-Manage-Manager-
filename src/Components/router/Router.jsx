@@ -24,6 +24,7 @@ import TripDetails from "../Trips/TripDetails";
 import AssignTrip from "../Trips/AssignTrip";
 import MaintenanceCard from "../Maintience/MaintenanceCard";
 import MaintenanceHistory from "../Maintience/MaintenanceHistory";
+import TripsHistory from "../DriversReports/TripsHistory";
 
 const Router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ const Router = createBrowserRouter([
           { path: "/reports/mechanics", element: <MechanicsReports /> },
           { path: "/maintience", element: <MaintenanceCard /> },
           { path: "/maintience/history", element: <MaintenanceHistory /> },
+          {path:"/trips/history",element:<TripsHistory/>},
 
       
         ],
